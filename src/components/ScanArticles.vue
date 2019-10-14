@@ -133,6 +133,8 @@ export default class ScanArticles extends Vue {
   private addArticleScan: any;
   @Action("removeArticleScan", { namespace })
   private removeArticleScan: any;
+  @Action("initAllArticlesFromLocalStorage", { namespace })
+  private initAllArticlesFromLocalStorage: any;
   @Action("refreshArticles", { namespace })
   private refreshArticles: any;
   @Action("sendArticlesScan", { namespace })
@@ -141,7 +143,7 @@ export default class ScanArticles extends Vue {
   public mounted() {
     // Recupére les données sauvegardé en locale
     this.initialiseArticleScan();
-    this.refreshArticles();
+    this.initAllArticlesFromLocalStorage();
 
     document.addEventListener("keydown", (event) => {
       if (!this.articleDialog && !this.searchArticleDialog)

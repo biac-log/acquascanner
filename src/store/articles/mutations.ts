@@ -11,6 +11,12 @@ export const mutations: MutationTree<ArticlesState> = {
   },
   refreshArticles(state, articles: Article[]) {
     state.articles = articles;
+    var strings: string = '';
+    articles.forEach(function (article) {
+      strings += article.Code + '#' + article.CodeEAN + '#' + article.Libelle + '§';
+    });
+
+    localStorage.setItem("AllArticles", strings);
   },
   resetArticles(state) {
     state.articles = [];
@@ -52,9 +58,27 @@ export const mutations: MutationTree<ArticlesState> = {
     localStorage.removeItem("articles");
   },
   clearAll(state) {
+    state.articles = [];
     state.articlesScan = [];
     state.errorMessage = '';
     state.loading = false;
     localStorage.removeItem("articles");
+    localStorage.removeItem("AllArticles");
+  },
+  initAllArticlesFromLocalStorage(state) {
+    const allArticlesFromLocal = localStorage.getItem("AllArticles");
+    var articles: Article[] = [];
+    if (allArticlesFromLocal) {
+      var rows = allArticlesFromLocal.split('§');
+      rows.forEach(function (row) {
+        var element = row.split('#');
+        var art: Article = new Article();
+        art.Code = element[0];
+        art.CodeEAN = element[1];
+        art.Libelle = element[2];
+        articles.push(art);
+      });
+    }
+    state.articles = articles;
   }
 };

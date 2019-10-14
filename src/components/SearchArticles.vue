@@ -19,6 +19,7 @@
 				:search="search"
 				:mobile-breakpoint="300"
 				:custom-filter="customFilter"
+				disable-sort
 				@click:row="sendArticle"
 				class="elevation-1"
 				no-data-text="La liste est vide"
@@ -61,7 +62,9 @@ export default class SearchArticles extends Vue {
   public customFilter(value: string, search: string, item: Article) {
     return (
       search != null &&
-      item != null &&
+	  item != null &&
+	  value != null &&
+	  item.CodeEAN != null &&
       (value
         .toString()
         .toUpperCase()

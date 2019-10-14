@@ -6,10 +6,10 @@ import { Article } from '../../data/Article';
 import { JsonConvert, ValueCheckingMode } from "json2typescript";
 
 export const actions: ActionTree<ArticlesState, RootState> = {
-  async refreshArticles({ commit }): Promise<any> {
+  refreshArticles({ commit }) {
     commit('setLoading', true);
     let articles: Article[] | null = null;
-    await axios.get<Article[]>(process.env.VUE_APP_ApiAcQuaUrl + "/Article/GetAllArticle?typeAcces=" + process.env.VUE_APP_ApiAcQuaTypeAccess)
+    axios.get<Article[]>(process.env.VUE_APP_ApiAcQuaUrl + "/Article/GetAllArticle?typeAcces=" + process.env.VUE_APP_ApiAcQuaTypeAccess)
       .then(response => {
         const jsonConvert: JsonConvert = new JsonConvert();
         jsonConvert.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;
@@ -18,10 +18,12 @@ export const actions: ActionTree<ArticlesState, RootState> = {
       })
       .catch(e => {
         commit('setErrorMessage', e.message + " " + process.env.VUE_APP_ApiAcQuaUrl);
-      });
-    if (articles)
-      commit('refreshArticles', articles);
-    commit('setLoading', false);
+      }).finally(() => {
+        if (articles) {
+          commit('refreshArticles', articles);
+        }
+        commit('setLoading', false);
+      });;
   },
   resetArticles({ commit }): any {
     commit('resetArticles');
@@ -46,5 +48,8 @@ export const actions: ActionTree<ArticlesState, RootState> = {
   },
   clearAll({ commit }): any {
     commit('clearAll');
+  },
+  initAllArticlesFromLocalStorage({ commit }): any{
+    commit('initAllArticlesFromLocalStorage');
   }
 };

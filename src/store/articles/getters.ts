@@ -24,4 +24,9 @@ export const getters: GetterTree<ArticlesState, RootState> = {
     getArticleScanByCode: (state) => (code: string): Article | undefined => {
         return state.articlesScan.find((a) => a.Code === code);
     },
+    countArticles: (state): number | undefined => {
+        if (state.articles)
+            return state.articles.length;
+        else return 0;
+    },
 };
