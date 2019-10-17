@@ -10,7 +10,10 @@ export const state: ArticlesState = {
   articles: [],
   articlesScan: [],
   loading: false,
-  errorMessage: ''
+  errorMessage: '',
+  successMessage: '',
+  displaySuccessMessage: false,
+  loadingSendArticleScan: false,
 };
 
 const namespaced: boolean = true;

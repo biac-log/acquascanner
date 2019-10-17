@@ -9,6 +9,7 @@
             :rules="codeRules"
             @keypress.enter.prevent="addArticle"
             readonly
+            dense
             class="mr-5"
           />
         </v-col>
@@ -18,17 +19,21 @@
             v-model="codeEAN"
             @keypress.enter.prevent="addArticle"
             readonly
+            dense
           />
         </v-col>
       </v-row>
       <v-row no-gutters>
         <v-col cols="12">
-          <v-text-field
+          <v-textarea
             label="Nom"
             v-model="nom"
             :rules="nameRules"
             @keypress.enter.prevent="addArticle"
             readonly
+            auto-grow
+            rows="1"
+            dense
           />
         </v-col>
       </v-row>
@@ -40,6 +45,7 @@
             :rules="quantiteRules"
             ref="quantiteElement"
             type="number"
+            dense
             @focus="$event.target.select()"
             @keypress.enter.prevent="addArticle"
           />

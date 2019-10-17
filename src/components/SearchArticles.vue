@@ -32,7 +32,7 @@
 					<td>{{ props.item.Libelle }}</td>
 				</template>
 			</v-data-table>
-			<v-alert :value="errorMessage != ''" type="warning">{{ errorMessage }}</v-alert>
+			<v-alert :value="errorMessage != ''" type="warning" border="left">{{ errorMessage }}</v-alert>
 		</v-card>
 	</v-container>
 </template>

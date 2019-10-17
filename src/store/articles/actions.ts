@@ -25,9 +25,6 @@ export const actions: ActionTree<ArticlesState, RootState> = {
         commit('setLoading', false);
       });;
   },
-  resetArticles({ commit }): any {
-    commit('resetArticles');
-  },
   initialiseArticleScan(context) {
     context.commit('initialiseArticleScan');
   },
@@ -39,17 +36,27 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     context.commit('removeArticleScan', article);
     context.commit('saveArticleScan');
   },
-  resetArticlesScan({ commit }): any {
-    commit('resetArticlesScan');
-    commit('saveArticleScan');
-  },
-  sendArticlesScan({ commit }): any {
-    commit('sendArticlesScan');
+  sendArticlesScan(context): any {
+    context.commit('setLoadingSendArticleScan', true);
+    axios.post(process.env.VUE_APP_ApiAcQuaUrl + "/Inventaire/ExportToCSV", context.state.articlesScan)
+      .then((r) => {
+        context.commit('resetArticlesScan');
+        context.commit('setErrorMessage', '');
+        context.commit('setSuccessMessage', "L'envoi des articles scannés s'est effectué avec succès.");
+      })
+      .catch((e) => {
+        context.commit('setErrorMessage', "Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? " + e.message);
+      }).finally(() => {
+        context.commit('setLoadingSendArticleScan', false);
+      });
   },
   clearAll({ commit }): any {
     commit('clearAll');
   },
-  initAllArticlesFromLocalStorage({ commit }): any{
+  initAllArticlesFromLocalStorage({ commit }): any {
     commit('initAllArticlesFromLocalStorage');
+  },
+  displaySuccessMessage({ commit }, value: boolean) {
+    commit('displaySuccessMessage', value);
   }
 };

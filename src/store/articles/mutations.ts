@@ -9,6 +9,13 @@ export const mutations: MutationTree<ArticlesState> = {
   setErrorMessage(state, errorMessage: string) {
     state.errorMessage = errorMessage;
   },
+  setSuccessMessage(state, message: string) {
+    state.displaySuccessMessage = message != '';
+    state.successMessage = message;
+  },
+  setLoadingSendArticleScan(state, isLoading: boolean) {
+    state.loadingSendArticleScan = isLoading;
+  },
   refreshArticles(state, articles: Article[]) {
     state.articles = articles;
     var strings: string = '';
@@ -17,12 +24,6 @@ export const mutations: MutationTree<ArticlesState> = {
     });
 
     localStorage.setItem("AllArticles", strings);
-  },
-  resetArticles(state) {
-    state.articles = [];
-  },
-  resetArticlesScan(state) {
-    state.articlesScan = [];
   },
   initialiseArticleScan(state) {
     if (localStorage.getItem("articles")) {
@@ -53,10 +54,6 @@ export const mutations: MutationTree<ArticlesState> = {
   saveArticleScan(state) {
     localStorage.setItem("articles", JSON.stringify(state.articlesScan));
   },
-  sendArticlesScan(state) {
-    state.articlesScan = [];
-    localStorage.removeItem("articles");
-  },
   clearAll(state) {
     state.articles = [];
     state.articlesScan = [];
@@ -65,14 +62,18 @@ export const mutations: MutationTree<ArticlesState> = {
     localStorage.removeItem("articles");
     localStorage.removeItem("AllArticles");
   },
+  resetArticlesScan(state) {
+    state.articlesScan = [];
+    localStorage.removeItem("articles");
+  },
   initAllArticlesFromLocalStorage(state) {
     const allArticlesFromLocal = localStorage.getItem("AllArticles");
-    var articles: Article[] = [];
+    let articles: Article[] = [];
     if (allArticlesFromLocal) {
-      var rows = allArticlesFromLocal.split('§');
+      const rows = allArticlesFromLocal.split('§');
       rows.forEach(function (row) {
-        var element = row.split('#');
-        var art: Article = new Article();
+        const element = row.split('#');
+        const art: Article = new Article();
         art.Code = element[0];
         art.CodeEAN = element[1];
         art.Libelle = element[2];
@@ -80,5 +81,8 @@ export const mutations: MutationTree<ArticlesState> = {
       });
     }
     state.articles = articles;
+  },
+  displaySuccessMessage(state, value: boolean) {
+    state.displaySuccessMessage = value;
   }
 };

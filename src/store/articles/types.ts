@@ -5,4 +5,7 @@ export interface ArticlesState {
   articlesScan: Article[];
   loading: boolean;
   errorMessage: string;
+  displaySuccessMessage: boolean;
+  successMessage: string;
+  loadingSendArticleScan: boolean;
 }
