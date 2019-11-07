@@ -1,6 +1,6 @@
 {
-  "name": "acquascanner",
-  "short_name": "acquascanner",
+  "name": "AcQuaScanner",
+  "short_name": "AcQuaScan",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",

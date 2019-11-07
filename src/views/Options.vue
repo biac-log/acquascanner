@@ -1,6 +1,13 @@
 <template>
   <v-container>
     <v-alert :value="errorMessage != ''" type="warning" border="left">{{ errorMessage }}</v-alert>
+    <v-combobox
+          v-model="userApolloSelected"
+          :items="usersApollo"
+          item-text="UserName"
+          item-value="NumeroSession"
+          label="Sélectionner l'utlisateur"
+    ></v-combobox>
     <v-btn
       block
       color="success"
@@ -33,6 +40,8 @@
 import { State, Action, Getter } from "vuex-class";
 import { Component, Vue, Emit } from "vue-property-decorator";
 import { Article } from "../data/Article";
+import { UserApollo } from "../data/UserApollo";
+import axios from "axios";
 
 @Component({})
 export default class Options extends Vue {
@@ -58,6 +67,9 @@ export default class Options extends Vue {
   @Getter("loadingSendArticleScan", { namespace: "articles" })
   private loadingSendArticleScan!: boolean;
 
+  private usersApollo: UserApollo[] = []
+  private userApolloSelected: UserApollo = new UserApollo();
+
   get displaySuccessMessage() {
     return this.$store.state.articles.displaySuccessMessage;
   }
@@ -80,6 +92,22 @@ export default class Options extends Vue {
   }
 
   private clickSendArticlesListe() {
+    axios.get<UserApollo[]>(
+            process.env.VUE_APP_ApiAcQuaUrl +
+              "/UserApollo/GetAll"
+          )
+          .then((response) => {
+            if (response.data) {
+              this.usersApollo = response.data;
+            }
+          })
+          .catch((e) => {
+
+          })
+          .finally(() => {
+
+          });
+
     if (
       confirm(
         "Assurez vous d'avoir une bonne connexion réseau avant d'envoyer la liste des articles. Voulez-vous continuer ?"
