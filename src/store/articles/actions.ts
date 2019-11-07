@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ArticlesState } from './types';
 import { RootState } from '../types';
 import { Article } from '../../data/Article';
+import { UserApollo } from '../../data/UserApollo';
 import { JsonConvert, ValueCheckingMode } from "json2typescript";
 
 export const actions: ActionTree<ArticlesState, RootState> = {
@@ -17,13 +18,13 @@ export const actions: ActionTree<ArticlesState, RootState> = {
         commit('setErrorMessage', '');
       })
       .catch(e => {
-        commit('setErrorMessage', e.message + " " + process.env.VUE_APP_ApiAcQuaUrl);
+        commit('setErrorMessage', e.message + ' ' + process.env.VUE_APP_ApiAcQuaUrl);
       }).finally(() => {
         if (articles) {
           commit('refreshArticles', articles);
         }
         commit('setLoading', false);
-      });;
+      });
   },
   initialiseArticleScan(context) {
     context.commit('initialiseArticleScan');
@@ -36,16 +37,16 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     context.commit('removeArticleScan', article);
     context.commit('saveArticleScan');
   },
-  sendArticlesScan(context): any {
+  sendArticlesScan(context, user: UserApollo): any {
     context.commit('setLoadingSendArticleScan', true);
-    axios.post(process.env.VUE_APP_ApiAcQuaUrl + "/Inventaire/ExportToCSV", context.state.articlesScan)
+    axios.post(process.env.VUE_APP_ApiAcQuaUrl + '/Inventaire/ExportToCSV?user=' + user.NumeroSession, context.state.articlesScan)
       .then((r) => {
         context.commit('resetArticlesScan');
         context.commit('setErrorMessage', '');
         context.commit('setSuccessMessage', "L'envoi des articles scannés s'est effectué avec succès.");
       })
       .catch((e) => {
-        context.commit('setErrorMessage', "Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? " + e.message);
+        context.commit('setErrorMessage', 'Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? ' + e.message);
       }).finally(() => {
         context.commit('setLoadingSendArticleScan', false);
       });
