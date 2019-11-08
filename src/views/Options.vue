@@ -39,6 +39,7 @@
 					label="Sélectionner l'utlisateur"
 					:loading="loadUser"
 					return-object
+          :readonly="loadUser"
 					solo
 				></v-select>
 				<v-alert :value="loadUserErrorMessage != ''" class="ma-0" type="warning" border="left">
@@ -126,6 +127,7 @@ export default class Options extends Vue {
   }
 
   private loadUsersApollo() {
+    this.loadUser = true;
     axios
       .get<UserApollo[]>(process.env.VUE_APP_ApiAcQuaUrl + '/UserApollo/GetAll')
       .then((response) => {
