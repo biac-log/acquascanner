@@ -125,18 +125,10 @@ export default class ScanArticles extends Vue {
 
   @Getter('articlesScan', { namespace })
   private articles!: Article[];
-  @Action('initialiseArticleScan', { namespace })
-  private initialiseArticleScan: any;
-  @Action('initAllArticlesFromLocalStorage', { namespace })
-  private initAllArticlesFromLocalStorage: any;
   @Action('refreshArticles', { namespace })
   private refreshArticles: any;
 
   public mounted() {
-    // Recupére les données sauvegardé en locale
-    this.initialiseArticleScan();
-    this.initAllArticlesFromLocalStorage();
-
     document.addEventListener('keydown', (event) => {
       if (!this.articleDialog && !this.searchArticleDialog) {
         this.$nextTick(() =>
