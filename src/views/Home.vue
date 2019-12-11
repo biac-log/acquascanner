@@ -11,4 +11,4 @@ export default Vue.extend({
     ScanArticles,
   },
 });
-</script>
+</script> 
