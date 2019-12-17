@@ -20,7 +20,7 @@ export const mutations: MutationTree<ArticlesState> = {
     state.articles = articles;
     var strings: string = '';
     articles.forEach(function (article) {
-      strings += article.Code + '#' + article.CodeEAN + '#' + article.Libelle + '§';
+      strings += article.Code + '#' + article.CodeEAN + '#' + article.Libelle + '#' + article.ReferenceFournisseur + '§';
     });
 
     localStorage.setItem("AllArticles", strings);
@@ -77,6 +77,7 @@ export const mutations: MutationTree<ArticlesState> = {
         art.Code = element[0];
         art.CodeEAN = element[1];
         art.Libelle = element[2];
+        art.ReferenceFournisseur = element[3];
         articles.push(art);
       });
     }

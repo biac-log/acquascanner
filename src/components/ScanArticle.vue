@@ -38,6 +38,19 @@
         </v-col>
       </v-row>
       <v-row no-gutters>
+        <v-col cols="12">
+          <v-textarea
+            label="Reference Fournisseur"
+            v-model="ReferenceFournisseur"
+            @keypress.enter.prevent="addArticle"
+            readonly
+            auto-grow
+            rows="1"
+            dense
+          />
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
         <v-col>
           <v-text-field
             label="Quantité"
@@ -94,6 +107,7 @@ export default class ScanArticle extends Vue {
   public codeEAN: string = "";
   public nom: string = "";
   public nameRules = [(v: any) => !!v || "Le nom est obligatoire"];
+  public ReferenceFournisseur : string = ""
 
   public quantite: string = "";
   public quantiteRules = [
@@ -129,6 +143,7 @@ export default class ScanArticle extends Vue {
       this.code = article.Code;
       this.codeEAN = article.CodeEAN;
       this.nom = article.Libelle;
+      this.ReferenceFournisseur = article.ReferenceFournisseur;
       if (article.Quantite) {
         this.isEdit = true;
         this.quantite = article.Quantite.toString();
@@ -146,6 +161,7 @@ export default class ScanArticle extends Vue {
       article.Code = this.code;
       article.CodeEAN = this.codeEAN;
       article.Libelle = this.nom;
+      article.ReferenceFournisseur = this.ReferenceFournisseur;
       article.Quantite = Number.parseFloat(this.quantite);
 
       if (this.quantiteAdd || this.quantiteAdd != "") {
@@ -172,6 +188,7 @@ export default class ScanArticle extends Vue {
     this.nom = "";
     this.quantite = "";
     this.quantiteAdd = "";
+    this.ReferenceFournisseur = "";
   }
 }
 </script>

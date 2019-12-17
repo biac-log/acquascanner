@@ -30,6 +30,7 @@
 					<td>{{ props.item.Code }}</td>
 					<td v-if="!$vuetify.breakpoint.smAndDown">{{ props.item.CodeEAN }}</td>
 					<td>{{ props.item.Libelle }}</td>
+					<td>{{ props.item.ReferenceFournisseur }}</td>
 				</template>
 			</v-data-table>
 			<v-alert :value="errorMessage != ''" type="warning" border="left">{{ errorMessage }}</v-alert>
@@ -54,7 +55,8 @@ export default class SearchArticles extends Vue {
   private search: string = "";
   private headers = [
     { text: "Code", value: "Code" },
-    { text: "Libelle", value: "Libelle" }
+	{ text: "Libelle", value: "Libelle" },
+	{ text: "Ref.", value: "ReferenceFournisseur" }
   ];
 
   // On passe dans le filtre pour chaques valeurs présente dans chaques row
@@ -65,11 +67,16 @@ export default class SearchArticles extends Vue {
 	  item != null &&
 	  value != null &&
 	  item.CodeEAN != null &&
+	  item.ReferenceFournisseur != null &&
       (value
         .toString()
         .toUpperCase()
         .indexOf(search.toUpperCase()) !== -1 ||
         item.CodeEAN.toString()
+          .toUpperCase()
+		  .indexOf(search.toUpperCase()) !== -1
+		  ||
+        item.ReferenceFournisseur.toString()
           .toUpperCase()
           .indexOf(search.toUpperCase()) !== -1)
     );

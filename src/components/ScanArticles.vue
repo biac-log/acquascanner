@@ -139,19 +139,14 @@ export default class ScanArticles extends Vue {
   }
 
   private codeIsValid(): boolean {
-    return (
-      this.codeArticle.length === 8 ||
-      this.codeArticle.length === 13 ||
-      this.codeArticle.length === 15 ||
-      this.codeArticle.length === 18
-    );
+    return ( this.codeArticle.length <= 13  && this.codeArticle.length >=1 );
   }
 
   private checkCodeArticle() {
     if (this.codeIsValid()) {
-      const article: Article = this.$store.getters[
-        'articles/getArticleByCodeEAN'
-      ](this.codeArticle);
+        var pad = "0000000000000";
+        var trueCodeArticle = pad.substring(0, pad.length - this.codeArticle.length) + this.codeArticle;
+      const article: Article = this.$store.getters['articles/getArticleByCodeEAN']( trueCodeArticle);
       if (article) {
         this.errorMessage = '';
         this.editArticle(article);
@@ -162,7 +157,7 @@ export default class ScanArticles extends Vue {
           .get<Article>(
             process.env.VUE_APP_ApiAcQuaUrl +
               '/Article/GetArticleByCodeEAN?code=' +
-              this.codeArticle +
+              trueCodeArticle +
               '&typeAcces=' +
               process.env.VUE_APP_ApiAcQuaTypeAccess,
           )
