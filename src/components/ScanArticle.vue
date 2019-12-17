@@ -11,6 +11,7 @@
             readonly
             dense
             class="mr-5"
+            hide-details
           />
         </v-col>
         <v-col cols="7">
@@ -20,6 +21,7 @@
             @keypress.enter.prevent="addArticle"
             readonly
             dense
+            hide-details
           />
         </v-col>
       </v-row>
@@ -34,6 +36,7 @@
             auto-grow
             rows="1"
             dense
+            hide-details
           />
         </v-col>
       </v-row>
@@ -47,6 +50,7 @@
             auto-grow
             rows="1"
             dense
+            hide-details
           />
         </v-col>
       </v-row>
@@ -76,18 +80,18 @@
             @keypress.enter.prevent="addArticle"
           />
         </v-col>
-        <v-col cols="auto">
-          <div class="d-inline float-right align-end flex-column">
-            <v-btn color="error" @click="deleteArticle">
-              <v-icon>mdi-delete-outline</v-icon>
-            </v-btn>
-          </div>
-          <div class="d-inline float-right mr-2 align-end flex-column">
+        <v-col cols="auto" class="d-flex">
+          <span class="align-self-center mx-2">
             <v-btn color="success" @click="addArticle" :disabled="!valid" >
               <v-icon>mdi-check</v-icon>
               <div v-if="!isEdit">Valider</div>
             </v-btn>
-          </div>
+          </span>
+          <span class="align-self-center">
+            <v-btn color="error" @click="deleteArticle">
+              <v-icon>mdi-delete-outline</v-icon>
+            </v-btn>
+          </span>
         </v-col>
       </v-row>
     </v-container>
