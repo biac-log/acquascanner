@@ -1,4 +1,6 @@
 import { Article } from '../../data/Article';
+import { UserApollo } from '../../data/UserApollo';
+import { TypeFichier } from '../../data/TypeFichier';
 
 export interface ArticlesState {
   articles: Article[];
@@ -8,4 +10,9 @@ export interface ArticlesState {
   displaySuccessMessage: boolean;
   successMessage: string;
   loadingSendArticleScan: boolean;
+}
+
+export class ExportState {
+  userNumeroSession: Number = 0;
+  typeFichierInventaireId : string = '';
 }

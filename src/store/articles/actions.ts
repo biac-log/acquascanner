@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 import axios from 'axios';
 import { ArticlesState } from './types';
+import { ExportState } from './types';
 import { RootState } from '../types';
 import { Article } from '../../data/Article';
 import { TypeFichier } from '../../data/TypeFichier';
@@ -38,9 +39,9 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     context.commit('removeArticleScan', article);
     context.commit('saveArticleScan');
   },
-  sendArticlesScan(context, user: UserApollo, type: TypeFichier): any {
+  sendArticlesScan(context, args: ExportState) : any {
     context.commit('setLoadingSendArticleScan', true);
-    axios.post(process.env.VUE_APP_ApiAcQuaUrl + '/Inventaire/ExportToCSV?user=' + user.NumeroSession + 'typeFichier='+ type  , context.state.articlesScan)
+    axios.post(process.env.VUE_APP_ApiAcQuaUrl + '/Inventaire/ExportToCSV?user=' + args.userNumeroSession + '&typeFichier='+ args.typeFichierInventaireId, context.state.articlesScan)
       .then((r) => {
         context.commit('resetArticlesScan');
         context.commit('setErrorMessage', '');

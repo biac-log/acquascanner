@@ -39,11 +39,10 @@
       :headers="headers"
       :items="articles"
       @click:row="editArticle"
-      class="elevation-1 mt-n3"
+      class="elevation-1"
       no-data-text="La liste est vide"
-      hide-default-header
-      dense
-    >
+      hide-default-header       >
+      
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>Articles : {{ articles.length }}</v-toolbar-title>
@@ -55,6 +54,8 @@
       </template>
       <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
     </v-data-table>
+
+
 
     <v-layout justify-center>
       <v-dialog

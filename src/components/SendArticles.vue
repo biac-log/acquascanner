@@ -1,13 +1,25 @@
 <template>
     <v-card>
         <v-card-title class="headline">Envoi de l'inventaire</v-card-title>
-        <v-card-text>Veuillez selectionner un utilisateur</v-card-text>
+        <v-card-text>Veuillez selectionner un utilisateur et une action</v-card-text>
         <v-select
             class="ml-5 mr-5 mb-5"
             :items="usersApollo"
             v-model="userApolloSelected"
             item-text="UserName"
-            label="Sélectionner l'utlisateur"
+            label="Sélectionner l'utilisateur"
+            :loading="loadTypeFichier"
+            :readonly="loadTypeFichier"
+            return-object
+            hide-details          
+            solo
+        ></v-select>
+        <v-select
+            class="ml-5 mr-5 mb-5"
+            :items="typesFichier"
+            v-model="typesFichierSelected"
+            item-text="Libelle"
+            label="Sélectionner action"
             :loading="loadUser"
             :readonly="loadUser"
             return-object
@@ -26,7 +38,7 @@
                 color="green darken-1"
                 text
                 @click="sendArticle"
-                :disabled="userApolloSelected === null"
+                :disabled="userApolloSelected === null || typesFichierSelected === null"
                 :loading="loadingSendArticleScan"
             >Envoyer</v-btn>
             <v-btn color="red darken-1" text @click="closeWindow">Annuler</v-btn>
@@ -38,7 +50,9 @@
 import { State, Action, Getter } from 'vuex-class';
 import { Component, Vue, Emit } from 'vue-property-decorator';
 import { UserApollo } from '../data/UserApollo';
+import { TypeFichier } from '../data/TypeFichier';
 import axios from 'axios';
+import { ExportState } from '../store/articles/types';
 
 @Component({})
 export default class Options extends Vue {
@@ -61,8 +75,14 @@ export default class Options extends Vue {
   private loadUser: Boolean = false;
   private loadUserErrorMessage: string = '';
 
+  private typesFichier: TypeFichier[] = [];
+  private typesFichierSelected: TypeFichier | null = null;
+  private loadTypeFichier: Boolean = false;
+  private export : ExportState| null = null;
+
     private mounted(){
         this.loadUsersApollo();
+        this.loadTypesFichier();
     }
 
   get displaySuccessMessage() {
@@ -91,9 +111,34 @@ export default class Options extends Vue {
       });
   }
 
+  private loadTypesFichier() {
+    this.loadTypeFichier = true;
+    axios
+      .get<TypeFichier[]>(process.env.VUE_APP_ApiAcQuaUrl + '/Inventaire/TypesFichier')
+      .then((response) => {
+        if (response.data) {
+          this.typesFichier = response.data;
+          this.loadUserErrorMessage = '';
+        }
+      })
+      .catch((e) => {
+        this.loadUserErrorMessage =
+          'Erreur lors du chargement des types de fichier : ' + e.message;
+      })
+      .finally(() => {
+        this.loadTypeFichier = false;
+      });
+  }
+
   private sendArticle() {
-    this.sendArticlesScan(this.userApolloSelected);
-    this.$emit("showSendArticleDialog", false);
+    if(this.userApolloSelected != null && this.typesFichierSelected != null)
+    {
+      this.export = new ExportState() ;
+      this.export.userNumeroSession = this.userApolloSelected.NumeroSession;
+      this.export.typeFichierInventaireId = this.typesFichierSelected.Id;
+      this.sendArticlesScan( this.export);
+      this.$emit("showSendArticleDialog", false);
+    }
   }
 
   private closeWindow() {
