@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ArticlesState } from './types';
 import { RootState } from '../types';
 import { Article } from '../../data/Article';
+import { TypeFichier } from '../../data/TypeFichier';
 import { UserApollo } from '../../data/UserApollo';
 import { JsonConvert, ValueCheckingMode } from "json2typescript";
 
@@ -37,9 +38,9 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     context.commit('removeArticleScan', article);
     context.commit('saveArticleScan');
   },
-  sendArticlesScan(context, user: UserApollo): any {
+  sendArticlesScan(context, user: UserApollo, type: TypeFichier): any {
     context.commit('setLoadingSendArticleScan', true);
-    axios.post(process.env.VUE_APP_ApiAcQuaUrl + '/Inventaire/ExportToCSV?user=' + user.NumeroSession, context.state.articlesScan)
+    axios.post(process.env.VUE_APP_ApiAcQuaUrl + '/Inventaire/ExportToCSV?user=' + user.NumeroSession + 'typeFichier='+ type  , context.state.articlesScan)
       .then((r) => {
         context.commit('resetArticlesScan');
         context.commit('setErrorMessage', '');
