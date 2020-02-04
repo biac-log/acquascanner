@@ -4,7 +4,6 @@ import { actions } from './actions';
 import { mutations } from './mutations';
 import { ArticlesState } from './types';
 import { RootState } from '../types';
-import { Article } from '../../data/Article';
 
 export const state: ArticlesState = {
   articles: [],

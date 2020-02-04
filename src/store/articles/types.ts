@@ -1,6 +1,4 @@
 import { Article } from '../../data/Article';
-import { UserApollo } from '../../data/UserApollo';
-import { TypeFichier } from '../../data/TypeFichier';
 
 export interface ArticlesState {
   articles: Article[];

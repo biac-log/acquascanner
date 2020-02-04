@@ -4,8 +4,6 @@ import { ArticlesState } from './types';
 import { ExportState } from './types';
 import { RootState } from '../types';
 import { Article } from '../../data/Article';
-import { TypeFichier } from '../../data/TypeFichier';
-import { UserApollo } from '../../data/UserApollo';
 import { JsonConvert, ValueCheckingMode } from "json2typescript";
 
 export const actions: ActionTree<ArticlesState, RootState> = {

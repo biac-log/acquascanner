@@ -32,7 +32,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx", "src/store/authentification/modules/user.js", "src/store/authentification/modules/auth.js", "src/store/authentification/actions.ts/user.js", "src/store/authentification/actions.ts/auth.js", "src/components/utils/api.js"
   ],
   "exclude": [
     "node_modules"

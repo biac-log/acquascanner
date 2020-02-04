@@ -10,7 +10,7 @@ export const mutations: MutationTree<ArticlesState> = {
     state.errorMessage = errorMessage;
   },
   setSuccessMessage(state, message: string) {
-    state.displaySuccessMessage = message != '';
+    state.displaySuccessMessage = message !== '';
     state.successMessage = message;
   },
   setLoadingSendArticleScan(state, isLoading: boolean) {
