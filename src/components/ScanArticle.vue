@@ -82,7 +82,7 @@
         </v-col>
         <v-col cols="auto" class="d-flex">
           <span class="align-self-center mx-2">
-            <v-btn color="success" @click="addArticle" :disabled="!valid" >
+            <v-btn color="success" @click="addArticle" :disabled="!valid">
               <v-icon>mdi-check</v-icon>
               <div v-if="!isEdit">Valider</div>
             </v-btn>
@@ -111,7 +111,7 @@ export default class ScanArticle extends Vue {
   public codeEAN: string = "";
   public nom: string = "";
   public nameRules = [(v: any) => !!v || "Le nom est obligatoire"];
-  public ReferenceFournisseur : string = ""
+  public ReferenceFournisseur: string = "";
 
   public quantite: string = "";
   public quantiteRules = [
@@ -168,7 +168,7 @@ export default class ScanArticle extends Vue {
       article.ReferenceFournisseur = this.ReferenceFournisseur;
       article.Quantite = Number.parseFloat(this.quantite);
 
-      if (this.quantiteAdd || this.quantiteAdd != "") {
+      if (this.quantiteAdd || this.quantiteAdd !== "") {
         article.Quantite += Number.parseFloat(this.quantiteAdd);
       }
 

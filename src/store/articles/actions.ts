@@ -11,13 +11,13 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     commit('setLoading', true);
     let articles: Article[] | null = null;
     axios.get<Article[]>(process.env.VUE_APP_ApiAcQuaUrl + "/Article/GetAllArticle?typeAcces=" + process.env.VUE_APP_ApiAcQuaTypeAccess)
-      .then(response => {
+      .then((response) => {
         const jsonConvert: JsonConvert = new JsonConvert();
         jsonConvert.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;
         articles = jsonConvert.deserializeArray(response.data, Article);
         commit('setErrorMessage', '');
       })
-      .catch(e => {
+      .catch((e) => {
         commit('setErrorMessage', e.message + ' ' + process.env.VUE_APP_ApiAcQuaUrl);
       }).finally(() => {
         if (articles) {
@@ -37,9 +37,9 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     context.commit('removeArticleScan', article);
     context.commit('saveArticleScan');
   },
-  sendArticlesScan(context, args: ExportState) : any {
+  sendArticlesScan(context, args: ExportState): any {
     context.commit('setLoadingSendArticleScan', true);
-    axios.post(process.env.VUE_APP_ApiAcQuaUrl + '/Inventaire/ExportToCSV?user=' + args.userNumeroSession + '&typeFichier='+ args.typeFichierInventaireId, context.state.articlesScan)
+    axios.post(process.env.VUE_APP_ApiAcQuaUrl + '/Inventaire/ExportToCSV?user=' + args.userNumeroSession + '&typeFichier=' + args.typeFichierInventaireId, context.state.articlesScan)
       .then((r) => {
         context.commit('resetArticlesScan');
         context.commit('setErrorMessage', '');
@@ -59,5 +59,5 @@ export const actions: ActionTree<ArticlesState, RootState> = {
   },
   displaySuccessMessage({ commit }, value: boolean) {
     commit('displaySuccessMessage', value);
-  }
+  },
 };

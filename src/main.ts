@@ -8,12 +8,12 @@ import vuetify from './plugins/vuetify';
 Vue.config.productionTip = false;
 
 Vue.directive('focus', {
-  inserted: (el) => { Vue.nextTick(() => el.focus()); }
+  inserted: (el) => { Vue.nextTick(() => el.focus()); },
 });
 
 new Vue({
   router,
   store,
   vuetify,
-  render: (h) => h(App)
+  render: (h) => h(App),
 }).$mount('#app');

@@ -4,7 +4,7 @@ import {
     AUTH_REQUEST,
     AUTH_ERROR,
     AUTH_SUCCESS,
-    AUTH_LOGOUT
+    AUTH_LOGOUT,
 } from './const';
 import { Token } from '../../data/Token';
 import { AuthentificationState } from './types';
@@ -18,13 +18,13 @@ export const actions: ActionTree<AuthentificationState, RootState> = {
         return new Promise((resolve, reject) => {
             commit(AUTH_REQUEST);
 
-            let login: Login = {
+            const login: Login = {
                 userName: user.username,
-                password: user.password
-            }
+                password: user.password,
+            };
 
             axios.post<Token>(process.env.VUE_APP_ApiAuthentication + "Login", login)
-                .then(resp => {
+                .then((resp) => {
                     localStorage.setItem("user-token", resp.data.value);
                     // Here set the header of your ajax library to the token value.
                     // example with axios
@@ -32,22 +32,23 @@ export const actions: ActionTree<AuthentificationState, RootState> = {
                     // dispatch(USER_REQUEST);
                     resolve(resp);
                 })
-                .catch(err => {
+                .catch((err) => {
                     commit(AUTH_ERROR, err);
                     localStorage.removeItem("user-token");
-                    var errorMessage: string = "Impossible de se connecter au serveur d'authentification";
-                    if (err.response && err.response.status === 400)
+                    let errorMessage: string = "Impossible de se connecter au serveur d'authentification";
+                    if (err.response && err.response.status === 400) {
                         errorMessage = err.response.data.Message;
+                    }
                     reject(errorMessage);
                 });
 
         });
     },
     [AUTH_LOGOUT]({ commit }) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             commit(AUTH_LOGOUT);
             localStorage.removeItem("user-token");
             resolve();
         });
-    }
+    },
 };

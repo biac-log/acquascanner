@@ -8,7 +8,7 @@ import { RootState } from '../types';
 export const state: AuthentificationState = {
     token : localStorage.getItem("user-token") || "",
     status : '',
-    hasLoadedOnce : false 
+    hasLoadedOnce : false,
 };
 
 const namespaced: boolean = true;

@@ -11,6 +11,6 @@ export interface ArticlesState {
 }
 
 export class ExportState {
-  userNumeroSession: Number = 0;
-  typeFichierInventaireId : string = '';
+  public userNumeroSession: number = 0;
+  public typeFichierInventaireId: string = '';
 }

@@ -1,14 +1,29 @@
 <template>
   <v-app>
-    <v-app-bar app>
-      <v-btn icon @click.stop="drawer = !drawer" v-if="isAuthenticated">
-        <v-icon>mdi-menu</v-icon>
+    <v-app-bar app v-if="this.$route.name === 'Main'">
+      <v-btn @click="logout" icon>
+        <v-icon>mdi-exit-to-app</v-icon>
       </v-btn>
       <v-spacer />
-      <v-toolbar-title class="headline text-uppercase">
+      <v-toolbar-title class="text-uppercase" short>
+        <span>AcQua</span>
+        <span class="font-weight-light">Scanner</span>
+      </v-toolbar-title>
+      <v-spacer />
+      <v-btn icon to="/options">
+        <v-icon>mdi-settings</v-icon>
+      </v-btn>
+    </v-app-bar>
+    <v-app-bar app v-else-if="displayCurrentModeBanner()" :color="currentMode.color">
+      <router-link to="/" black>
+        <v-btn icon>
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+      </router-link>
+      <v-spacer />
+      <v-toolbar-title class="text-uppercase" short>
         <router-link to="/" black>
-          <span>AcQua</span>
-          <span class="font-weight-light">Scanner</span>
+          <span class="font-weight">{{currentMode.libelle}}</span>
         </router-link>
       </v-toolbar-title>
       <v-spacer />
@@ -23,44 +38,23 @@
         <v-icon>mdi-file-document-box-check-outline</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-navigation-drawer
-      v-if="isAuthenticated"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      v-model="drawer"
-      enable-resize-watcher
-      fixed
-      hide-overlay
-      app
-    >
-      <v-list dense>
-        <v-list-item key="Scanning" to="/">
-          <v-list-item-icon>
-            <v-icon>mdi-barcode-scan</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Scanning</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item key="Settings" to="/options">
-          <v-list-item-icon>
-            <v-icon>mdi-settings</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-spacer></v-spacer>
-        <v-list-item key="Logout" @click="logout">
-          <v-list-item-icon>
-            <v-icon>mdi-ExitToApp</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Déconnexion</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    <v-app-bar app v-else>
+      <router-link to="/" black>
+        <v-btn icon>
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+      </router-link>
+      <v-spacer />
+      <v-toolbar-title class="text-uppercase" short>
+        <router-link to="/" black>
+          <span>AcQua</span>
+          <span class="font-weight-light">Scanner</span>
+        </router-link>
+      </v-toolbar-title>
+      <v-spacer />
+      <v-spacer />
+    </v-app-bar>
+
     <v-content>
       <v-alert
         :value="errorMessage != ''"
@@ -92,21 +86,26 @@ import SendArticles from "./components/SendArticles.vue";
 import Article from "./data/Article.vue";
 import { State, Action, Getter } from "vuex-class";
 import { AUTH_LOGOUT } from "./store/authentification/const";
+import { modes } from "./store/modes/const";
+import ScanArticle from "./components/ScanArticle.vue";
+import { ScanMode } from "./data/ScanMode";
 
 @Component({
   components: { ScanArticles, SendArticles }
 })
 export default class App extends Vue {
+  get displaySuccessMessage() {
+    return this.$store.state.articles.displaySuccessMessage;
+  }
+  set displaySuccessMessage(value: boolean) {
+    this.actionDisplaySuccessMessage(value);
+  }
   private drawer: boolean = false;
   private miniVariant: boolean = false;
   private clipped: boolean = true;
   private sendArticlesDialog: boolean = false;
-
-  public logout() {
-    this.$store.dispatch("authentificationModule/" + AUTH_LOGOUT).then(() => {
-      this.$router.push("/login");
-    });
-  }
+  private currentMode?: ScanMode = undefined;
+  private InventaireDialog: boolean = false;
 
   @Action("displaySuccessMessage", { namespace: "articles" })
   private actionDisplaySuccessMessage: any;
@@ -121,11 +120,23 @@ export default class App extends Vue {
   @Getter("isAuthenticated", { namespace: "authentificationModule" })
   private isAuthenticated!: boolean;
 
-  get displaySuccessMessage() {
-    return this.$store.state.articles.displaySuccessMessage;
+  public logout() {
+    this.$store.dispatch("authentificationModule/" + AUTH_LOGOUT).then(() => {
+      this.$router.push("/login");
+    });
   }
-  set displaySuccessMessage(value: boolean) {
-    this.actionDisplaySuccessMessage(value);
+
+  private displayCurrentModeBanner() {
+    let result: boolean = false;
+
+    this.currentMode = undefined;
+    modes.forEach(element => {
+      if (element.destination === this.$route.name) {
+        result = true;
+        this.currentMode = element;
+      }
+    });
+    return result;
   }
 
   private created() {

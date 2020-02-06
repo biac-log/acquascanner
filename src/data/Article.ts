@@ -10,5 +10,5 @@ export class Article {
   public Libelle: string = '';
   public Quantite: number = 0;
   @JsonProperty('ReferenceFournisseur', String)
-  public ReferenceFournisseur : string = '';
+  public ReferenceFournisseur: string = '';
 }

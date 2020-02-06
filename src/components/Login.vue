@@ -66,12 +66,12 @@ export default class Login extends Vue {
     this.$store
       .dispatch("authentificationModule/" + AUTH_REQUEST, {
         username,
-        password
+        password,
       })
       .then(() => {
         this.$router.push("/");
       })
-      .catch(reaseon => {
+      .catch((reaseon) => {
         this.errorMessage = reaseon;
       })
       .finally(() => {

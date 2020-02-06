@@ -18,8 +18,8 @@ export const mutations: MutationTree<ArticlesState> = {
   },
   refreshArticles(state, articles: Article[]) {
     state.articles = articles;
-    var strings: string = '';
-    articles.forEach(function (article) {
+    let strings: string = '';
+    articles.forEach(function(article) {
       strings += article.Code + '#' + article.CodeEAN + '#' + article.Libelle + '#' + article.ReferenceFournisseur + '§';
     });
 
@@ -68,10 +68,10 @@ export const mutations: MutationTree<ArticlesState> = {
   },
   initAllArticlesFromLocalStorage(state) {
     const allArticlesFromLocal = localStorage.getItem("AllArticles");
-    let articles: Article[] = [];
+    const articles: Article[] = [];
     if (allArticlesFromLocal) {
       const rows = allArticlesFromLocal.split('§');
-      rows.forEach(function (row) {
+      rows.forEach(function(row) {
         const element = row.split('#');
         const art: Article = new Article();
         art.Code = element[0];
@@ -85,5 +85,5 @@ export const mutations: MutationTree<ArticlesState> = {
   },
   displaySuccessMessage(state, value: boolean) {
     state.displaySuccessMessage = value;
-  }
+  },
 };

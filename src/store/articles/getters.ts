@@ -24,7 +24,7 @@ export const getters: GetterTree<ArticlesState, RootState> = {
     },
     getArticleByCodeEAN: (state) => (codeEAN: string): Article | undefined => {
         let articleFind = state.articlesScan.find((a) => a.CodeEAN === codeEAN);
-        if (!articleFind) articleFind = state.articles.find((a) => a.CodeEAN === codeEAN);
+        if (!articleFind) { articleFind = state.articles.find((a) => a.CodeEAN === codeEAN); }
         if (!articleFind) {
             if (codeEAN === "3564707104302") {
                 articleFind = new Article();
@@ -45,8 +45,8 @@ export const getters: GetterTree<ArticlesState, RootState> = {
         return state.articlesScan.find((a) => a.CodeEAN === codeEAN);
     },
     countArticles: (state): number | undefined => {
-        if (state.articles)
+        if (state.articles) {
             return state.articles.length;
-        else return 0;
+        } else { return 0; }
     },
 };

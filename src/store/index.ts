@@ -14,7 +14,7 @@ const store: StoreOptions<RootState> = {
   },
   modules: {
     articles,
-    authentificationModule
+    authentificationModule,
   },
 };
 

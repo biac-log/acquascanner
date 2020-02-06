@@ -3,7 +3,7 @@ import * as c from './const';
 import { AuthentificationState } from './types';
 
 export const mutations: MutationTree<AuthentificationState> = {
-    [c.AUTH_REQUEST]: state => {
+    [c.AUTH_REQUEST]: (state) => {
         state.status = "loading";
     },
     [c.AUTH_SUCCESS]: (state, resp) => {
@@ -11,11 +11,11 @@ export const mutations: MutationTree<AuthentificationState> = {
         state.token = resp;
         state.hasLoadedOnce = true;
     },
-    [c.AUTH_ERROR]: state => {
+    [c.AUTH_ERROR]: (state) => {
         state.status = "error";
         state.hasLoadedOnce = true;
     },
-    [c.AUTH_LOGOUT]: state => {
+    [c.AUTH_LOGOUT]: (state) => {
         state.token = "";
-    }
+    },
 };

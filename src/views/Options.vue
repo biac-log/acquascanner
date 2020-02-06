@@ -47,10 +47,10 @@ export default class Options extends Vue {
   @Getter('loading', { namespace: 'articles' })
   private loading!: boolean;
 
-  //private usersApollo: UserApollo[] = [];
-  //private userApolloSelected: UserApollo | null = null;
-  //private loadUser: Boolean = false;
-  //private loadUserErrorMessage: string = '';
+  // private usersApollo: UserApollo[] = [];
+  // private userApolloSelected: UserApollo | null = null;
+  // private loadUser: Boolean = false;
+  // private loadUserErrorMessage: string = '';
 
   private clearData() {
     if (
