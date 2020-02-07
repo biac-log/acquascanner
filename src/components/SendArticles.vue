@@ -8,13 +8,11 @@
       v-model="userApolloSelected"
       item-text="UserName"
       label="Sélectionner l'utilisateur"
-      :loading="loadTypeFichier"
-      :readonly="loadTypeFichier"
       return-object
       hide-details
       solo
     ></v-select>
-    <v-select
+    <!-- <v-select
       class="ml-5 mr-5 mb-5"
       :items="typesFichier"
       v-model="typesFichierSelected"
@@ -25,7 +23,7 @@
       return-object
       hide-details
       solo
-    ></v-select>
+    ></v-select> -->
     <v-alert :value="loadUserErrorMessage != ''" class="ma-0" type="warning" border="left">
       {{ loadUserErrorMessage }}
       <v-btn small color="primary" :loading="loadUser" @click="loadUsersApollo">
@@ -38,7 +36,7 @@
         color="green darken-1"
         text
         @click="sendArticle"
-        :disabled="userApolloSelected === null || typesFichierSelected === null"
+        :disabled="userApolloSelected === null"
         :loading="loadingSendArticleScan"
       >Envoyer</v-btn>
       <v-btn color="red darken-1" text @click="closeWindow">Annuler</v-btn>
@@ -82,7 +80,7 @@ export default class Options extends Vue {
 
   private mounted() {
     this.loadUsersApollo();
-    this.loadTypesFichier();
+    // this.loadTypesFichier();
   }
 
   get displaySuccessMessage() {
@@ -111,26 +109,26 @@ export default class Options extends Vue {
       });
   }
 
-  private loadTypesFichier() {
-    this.loadTypeFichier = true;
-    axios
-      .get<TypeFichier[]>(
-        process.env.VUE_APP_ApiAcQuaUrl + "/Inventaire/TypesFichier"
-      )
-      .then(response => {
-        if (response.data) {
-          this.typesFichier = response.data;
-          this.loadUserErrorMessage = "";
-        }
-      })
-      .catch(e => {
-        this.loadUserErrorMessage =
-          "Erreur lors du chargement des types de fichier : " + e.message;
-      })
-      .finally(() => {
-        this.loadTypeFichier = false;
-      });
-  }
+  // private loadTypesFichier() {
+  //   this.loadTypeFichier = true;
+  //   axios
+  //     .get<TypeFichier[]>(
+  //       process.env.VUE_APP_ApiAcQuaUrl + "/Inventaire/TypesFichier"
+  //     )
+  //     .then(response => {
+  //       if (response.data) {
+  //         this.typesFichier = response.data;
+  //         this.loadUserErrorMessage = "";
+  //       }
+  //     })
+  //     .catch(e => {
+  //       this.loadUserErrorMessage =
+  //         "Erreur lors du chargement des types de fichier : " + e.message;
+  //     })
+  //     .finally(() => {
+  //       this.loadTypeFichier = false;
+  //     });
+  // }
 
   private sendArticle() {
     if (this.userApolloSelected != null && this.typesFichierSelected != null) {
