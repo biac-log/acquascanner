@@ -42,4 +42,12 @@ export const modes: ScanMode[] = [
         color: "#C51162",
         destination: "Livraison",
         icon: "mdi-dolly",
+    },
+    {
+        key: "COM",
+        libelle: "Commande",
+        color: "#76B041",
+        destination: "Commande",
+        icon: "mdi-arrow-up-bold-box-outline",
+
     }];

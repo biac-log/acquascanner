@@ -5,6 +5,7 @@ import ScanModes from './components/ScanModes.vue';
 import Options from './views/Options.vue';
 import Login from './components/Login.vue';
 import store from './store'; // your vuex store
+import PrintArticle from './components/PrintArticle.vue'
 
 Vue.use(Router);
 
@@ -81,6 +82,12 @@ export default new Router({
       name: 'Login',
       component: Login,
       beforeEnter: ifNotAuthenticated,
+    },
+    {
+      path: '/commande',
+      name: 'Commande',
+      component: ScanArticles,
+      beforeEnter: ifAuthenticated,
     },
     {
       path: '*',
