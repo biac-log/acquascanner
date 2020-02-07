@@ -41,8 +41,8 @@
       @click:row="editArticle"
       class="elevation-1"
       no-data-text="La liste est vide"
-      hide-default-header       >
-      
+      hide-default-header
+    >
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>Articles : {{ articles.length }}</v-toolbar-title>
@@ -54,8 +54,6 @@
       </template>
       <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
     </v-data-table>
-
-
 
     <v-layout justify-center>
       <v-dialog
@@ -122,7 +120,7 @@ export default class ScanArticles extends Vue {
   private headers = [
     { text: "EAN", value: "CodeEAN" },
     { text: "Libelle", value: "Libelle" },
-    { text: "Quantité", value: "Quantite" },
+    { text: "Quantité", value: "Quantite" }
   ];
 
   @Getter("articlesScan", { namespace })
@@ -131,10 +129,10 @@ export default class ScanArticles extends Vue {
   private refreshArticles: any;
 
   public mounted() {
-    document.addEventListener("keydown", (event) => {
+    document.addEventListener("keydown", event => {
       if (!this.articleDialog && !this.searchArticleDialog) {
         this.$nextTick(() =>
-          (this.$refs.codeArticleElement as HTMLInputElement).focus(),
+          (this.$refs.codeArticleElement as HTMLInputElement).focus()
         );
       }
     });
@@ -145,7 +143,9 @@ export default class ScanArticles extends Vue {
   }
 
   private triggerCheck() {
-    if (this.codeArticle.length >= 11  && this.codeArticle.length <= 13) { this.checkCodeArticle(); }
+    if (this.codeArticle.length >= 11 && this.codeArticle.length <= 13) {
+      this.checkCodeArticle();
+    }
   }
 
   private checkCodeArticle() {
@@ -165,13 +165,11 @@ export default class ScanArticles extends Vue {
         this.loadingCode = true;
         axios
           .get<Article>(
-            process.env.URL_ApiArticle +
+            process.env.VUE_APP_ApiArticle +
               "/Article/GetArticleByCodeEAN?code=" +
-              trueCodeArticle +
-              "&typeAcces=" +
-              process.env.VUE_APP_ApiAcQuaTypeAccess,
+              trueCodeArticle
           )
-          .then((response) => {
+          .then(response => {
             if (response.data) {
               this.articleDialog = true;
               this.editArticle(response.data);
@@ -181,7 +179,7 @@ export default class ScanArticles extends Vue {
                 "L'article " + this.codeArticle + " n'existe pas";
             }
           })
-          .catch((e) => {
+          .catch(e => {
             this.showError = true;
             this.errorMessage = e.message;
           })
@@ -199,14 +197,14 @@ export default class ScanArticles extends Vue {
     (this.$refs.ScanArticleWindow as ScanArticle).editArticle(article);
     window.scrollTo(0, 0);
     this.$nextTick(() =>
-      (this.$refs.ScanArticleWindow as ScanArticle).focusQuantite(),
+      (this.$refs.ScanArticleWindow as ScanArticle).focusQuantite()
     );
   }
 
   private editArticleFromSearch(article: Article) {
     this.searchArticleDialog = false;
     const art: Article = this.$store.getters["articles/getArticleScanByCode"](
-      article.CodeEAN,
+      article.CodeEAN
     );
     if (art) {
       this.editArticle(art);

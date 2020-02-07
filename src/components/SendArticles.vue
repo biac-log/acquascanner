@@ -23,7 +23,7 @@
       return-object
       hide-details
       solo
-    ></v-select> -->
+    ></v-select>-->
     <v-alert :value="loadUserErrorMessage != ''" class="ma-0" type="warning" border="left">
       {{ loadUserErrorMessage }}
       <v-btn small color="primary" :loading="loadUser" @click="loadUsersApollo">
@@ -73,14 +73,10 @@ export default class Options extends Vue {
   private loadUser: boolean = false;
   private loadUserErrorMessage: string = "";
 
-  private typesFichier: TypeFichier[] = [];
-  private typesFichierSelected: TypeFichier | null = null;
-  private loadTypeFichier: boolean = false;
   private export: ExportState | null = null;
 
   private mounted() {
     this.loadUsersApollo();
-    // this.loadTypesFichier();
   }
 
   get displaySuccessMessage() {
@@ -93,7 +89,7 @@ export default class Options extends Vue {
   private loadUsersApollo() {
     this.loadUser = true;
     axios
-      .get<UserApollo[]>(process.env.URL_ApiArticle + "/UserApollo/GetAll")
+      .get<UserApollo[]>(process.env.VUE_APP_ApiAcQua + "/UserApollo/GetAll")
       .then(response => {
         if (response.data) {
           this.usersApollo = response.data;
@@ -109,32 +105,10 @@ export default class Options extends Vue {
       });
   }
 
-  // private loadTypesFichier() {
-  //   this.loadTypeFichier = true;
-  //   axios
-  //     .get<TypeFichier[]>(
-  //       process.env.VUE_APP_ApiAcQuaUrl + "/Inventaire/TypesFichier"
-  //     )
-  //     .then(response => {
-  //       if (response.data) {
-  //         this.typesFichier = response.data;
-  //         this.loadUserErrorMessage = "";
-  //       }
-  //     })
-  //     .catch(e => {
-  //       this.loadUserErrorMessage =
-  //         "Erreur lors du chargement des types de fichier : " + e.message;
-  //     })
-  //     .finally(() => {
-  //       this.loadTypeFichier = false;
-  //     });
-  // }
-
   private sendArticle() {
-    if (this.userApolloSelected != null && this.typesFichierSelected != null) {
+    if (this.userApolloSelected != null) {
       this.export = new ExportState();
       this.export.userNumeroSession = this.userApolloSelected.NumeroSession;
-      this.export.typeFichierInventaireId = this.typesFichierSelected.Id;
       this.sendArticlesScan(this.export);
       this.$emit("showSendArticleDialog", false);
     }

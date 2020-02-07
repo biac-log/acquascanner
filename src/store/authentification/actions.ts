@@ -23,7 +23,7 @@ export const actions: ActionTree<AuthentificationState, RootState> = {
                 password: user.password,
             };
 
-            axios.post<Token>(process.env.VUE_APP_ApiAuthentication + "Login", login)
+            axios.post<Token>(process.env.VUE_APP_ApiAuth + "/Authentication/Login", login)
                 .then((resp) => {
                     localStorage.setItem("user-token", resp.data.value);
                     // Here set the header of your ajax library to the token value.
