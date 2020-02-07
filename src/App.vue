@@ -27,16 +27,30 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer />
+      <div v-if="currentMode.libelle!='Commande'">
       <v-btn
         icon
-        color="green darken-1"
+        color="green darken-1"       
         @click.stop="sendArticlesDialog = !sendArticlesDialog"
         v-if="isAuthenticated"
         :disabled="articlesScan.length === 0"
         :loading="loadingSendArticleScan"
       >
-        <v-icon>mdi-file-document-box-check-outline</v-icon>
+        <v-icon>mdi-file-document-box-check-outline</v-icon>       
       </v-btn>
+      </div>
+      <div v-else>
+      <v-btn
+        icon
+        color="green darken-1"       
+        @click.stop=SendCommande();
+        v-if="isAuthenticated"
+        :disabled="articlesScan.length === 0"
+        :loading="loadingSendArticleScan"
+      >
+        <v-icon>mdi-email</v-icon>       
+      </v-btn>
+      </div>
     </v-app-bar>
     <v-app-bar app v-else>
       <router-link to="/" black>
@@ -146,6 +160,11 @@ export default class App extends Vue {
 
   private showSendArticleDialog(value: boolean) {
     this.sendArticlesDialog = value;
+  }
+
+  public SendListArticle()
+  {
+    //this.articlesScan= ['1','2','3','4'];
   }
 }
 </script>
