@@ -165,7 +165,7 @@ export default class ScanArticles extends Vue {
         this.loadingCode = true;
         axios
           .get<Article>(
-            process.env.VUE_APP_ApiAcQuaUrl +
+            process.env.URL_ApiArticle +
               "/Article/GetArticleByCodeEAN?code=" +
               trueCodeArticle +
               "&typeAcces=" +

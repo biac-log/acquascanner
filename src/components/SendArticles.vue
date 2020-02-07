@@ -95,7 +95,7 @@ export default class Options extends Vue {
   private loadUsersApollo() {
     this.loadUser = true;
     axios
-      .get<UserApollo[]>(process.env.VUE_APP_ApiAcQuaUrl + "/UserApollo/GetAll")
+      .get<UserApollo[]>(process.env.URL_ApiArticle + "/UserApollo/GetAll")
       .then(response => {
         if (response.data) {
           this.usersApollo = response.data;

@@ -10,7 +10,7 @@ export const actions: ActionTree<ArticlesState, RootState> = {
   refreshArticles({ commit }) {
     commit('setLoading', true);
     let articles: Article[] | null = null;
-    axios.get<Article[]>(process.env.VUE_APP_ApiAcQuaUrl + "/Article/GetAllArticle?typeAcces=" + process.env.VUE_APP_ApiAcQuaTypeAccess)
+    axios.get<Article[]>(process.env.URL_ApiArticle + "/Article/GetAllArticle")
       .then((response) => {
         const jsonConvert: JsonConvert = new JsonConvert();
         jsonConvert.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;
@@ -39,7 +39,7 @@ export const actions: ActionTree<ArticlesState, RootState> = {
   },
   sendArticlesScan(context, args: ExportState): any {
     context.commit('setLoadingSendArticleScan', true);
-    axios.post(process.env.VUE_APP_ApiAcQuaUrl + '/Inventaire/ExportToCSV?user=' + args.userNumeroSession + '&typeFichier=' + args.typeFichierInventaireId, context.state.articlesScan)
+    axios.post(process.env.URL_ApiStock + '/Inventaire/ExportToCSV?user=' + args.userNumeroSession + '&typeFichier=' + args.typeFichierInventaireId, context.state.articlesScan)
       .then((r) => {
         context.commit('resetArticlesScan');
         context.commit('setErrorMessage', '');
