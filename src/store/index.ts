@@ -3,6 +3,7 @@ import Vuex, { StoreOptions } from 'vuex';
 import { RootState } from './types';
 import { articles } from './articles/index';
 import { authentificationModule } from './authentification/index';
+import { modeModule } from './modes/index';
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ const store: StoreOptions<RootState> = {
   modules: {
     articles,
     authentificationModule,
+    modeModule
   },
 };
 

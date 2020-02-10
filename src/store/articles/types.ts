@@ -9,8 +9,3 @@ export interface ArticlesState {
   successMessage: string;
   loadingSendArticleScan: boolean;
 }
-
-export class ExportState {
-  public userNumeroSession: number = 0;
-  public typeFichierInventaireId: string = '';
-}

@@ -14,7 +14,7 @@
         <v-icon>mdi-settings</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-app-bar app v-else-if="displayCurrentModeBanner()" :color="currentMode.color">
+    <v-app-bar app v-else-if="modeIsDefined" :color="modeColor">
       <router-link to="/" black>
         <v-btn icon>
           <v-icon>mdi-arrow-left</v-icon>
@@ -23,33 +23,33 @@
       <v-spacer />
       <v-toolbar-title class="text-uppercase" short>
         <router-link to="/" black>
-          <span class="font-weight">{{currentMode.libelle}}</span>
+          <span class="font-weight">{{modeLibelle}}</span>
         </router-link>
       </v-toolbar-title>
       <v-spacer />
-      <div v-if="currentMode.libelle!='Commande'">
-      <v-btn
-        icon
-        color="green darken-1"       
-        @click.stop="sendArticlesDialog = !sendArticlesDialog"
-        v-if="isAuthenticated"
-        :disabled="articlesScan.length === 0"
-        :loading="loadingSendArticleScan"
-      >
-        <v-icon>mdi-file-document-box-check-outline</v-icon>       
-      </v-btn>
+      <div v-if="modeLibelle!='Commande'">
+        <v-btn
+          icon
+          color="green darken-1"
+          @click.stop="sendArticlesDialog = !sendArticlesDialog"
+          v-if="isAuthenticated"
+          :disabled="articlesScan.length === 0"
+          :loading="loadingSendArticleScan"
+        >
+          <v-icon>mdi-file-document-box-check-outline</v-icon>
+        </v-btn>
       </div>
       <div v-else>
-      <v-btn
-        icon
-        color="green darken-1"       
-        @click.stop=SendCommande();
-        v-if="isAuthenticated"
-        :disabled="articlesScan.length === 0"
-        :loading="loadingSendArticleScan"
-      >
-        <v-icon>mdi-email</v-icon>       
-      </v-btn>
+        <v-btn
+          icon
+          color="green darken-1"
+          @click.stop="SendCommande();"
+          v-if="isAuthenticated"
+          :disabled="articlesScan.length === 0"
+          :loading="loadingSendArticleScan"
+        >
+          <v-icon>mdi-email</v-icon>
+        </v-btn>
       </div>
     </v-app-bar>
     <v-app-bar app v-else>
@@ -98,7 +98,7 @@ import { Component, Vue } from "vue-property-decorator";
 import ScanArticles from "./components/ScanArticles.vue";
 import SendArticles from "./components/SendArticles.vue";
 import Article from "./data/Article.vue";
-import { State, Action, Getter } from "vuex-class";
+import { State, Action, Getter, namespace } from "vuex-class";
 import { AUTH_LOGOUT } from "./store/authentification/const";
 import { modes } from "./store/modes/const";
 import ScanArticle from "./components/ScanArticle.vue";
@@ -123,6 +123,14 @@ export default class App extends Vue {
 
   @Action("displaySuccessMessage", { namespace: "articles" })
   private actionDisplaySuccessMessage: any;
+
+  @Getter("modeModule/modeIsDefined")
+  private modeIsDefined!: boolean;
+  @Getter("modeModule/getColor")
+  private modeColor!: string;
+  @Getter("modeModule/getLibelle")
+  private modeLibelle!: string;
+
   @Getter("loadingSendArticleScan", { namespace: "articles" })
   private loadingSendArticleScan!: boolean;
   @Getter("successMessage", { namespace: "articles" })
@@ -140,30 +148,19 @@ export default class App extends Vue {
     });
   }
 
-  private displayCurrentModeBanner() {
-    let result: boolean = false;
-
-    this.currentMode = undefined;
-    modes.forEach(element => {
-      if (element.destination === this.$route.name) {
-        result = true;
-        this.currentMode = element;
-      }
-    });
-    return result;
-  }
-
   private created() {
     this.$store.dispatch("articles/initialiseArticleScan");
     this.$store.dispatch("articles/initAllArticlesFromLocalStorage");
+    this.$router.afterEach((to, from) => {
+      this.$store.commit("modeModule/changeCurrentMode", this.$route.name);
+    });
   }
 
   private showSendArticleDialog(value: boolean) {
     this.sendArticlesDialog = value;
   }
 
-  public SendListArticle()
-  {
+  public SendListArticle() {
     //this.articlesScan= ['1','2','3','4'];
   }
 }

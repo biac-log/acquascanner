@@ -1,7 +1,6 @@
 import { ActionTree } from 'vuex';
 import axios from 'axios';
 import { ArticlesState } from './types';
-import { ExportState } from './types';
 import { RootState } from '../types';
 import { Article } from '../../data/Article';
 import { JsonConvert, ValueCheckingMode } from "json2typescript";
@@ -35,8 +34,8 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     })
   },
 
-  initialiseArticleScan(context) {
-    context.commit('initialiseArticleScan');
+  initialiseArticleScan({commit}) {
+    commit('initialiseArticleScan');
   },
   addArticleScan(context, article: Article) {
     context.commit('addArticleScan', article);
@@ -46,9 +45,10 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     context.commit('removeArticleScan', article);
     context.commit('saveArticleScan');
   },
-  sendArticlesScan(context, args: ExportState): any {
+  sendArticlesScan(context, {userSession, routeController}): any {
     context.commit('setLoadingSendArticleScan', true);
-    axios.post(process.env.VUE_APP_ApiStock + '/Inventaire/ExportToCSV?user=' + args.userNumeroSession, context.state.articlesScan)
+    var url: string =  process.env.VUE_APP_ApiStock + '/Stock/' + routeController + '?user=' + userSession;
+    axios.post(url, context.state.articlesScan)
       .then((r) => {
         context.commit('resetArticlesScan');
         context.commit('setErrorMessage', '');

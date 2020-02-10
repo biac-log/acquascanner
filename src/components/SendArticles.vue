@@ -8,6 +8,7 @@
       v-model="userApolloSelected"
       item-text="UserName"
       label="Sélectionner l'utilisateur"
+      :loading="loadUser"
       return-object
       hide-details
       solo
@@ -50,7 +51,6 @@ import { Component, Vue, Emit } from "vue-property-decorator";
 import { UserApollo } from "../data/UserApollo";
 import { TypeFichier } from "../data/TypeFichier";
 import axios from "axios";
-import { ExportState } from "../store/articles/types";
 
 @Component({})
 export default class Options extends Vue {
@@ -58,6 +58,9 @@ export default class Options extends Vue {
   private sendArticlesScan: any;
   @Action("displaySuccessMessage", { namespace: "articles" })
   private actionDisplaySuccessMessage: any;
+
+  @Getter("modeModule/getDestination")
+  private modeDestination!: string;
 
   @Getter("loading", { namespace: "articles" })
   private loading!: boolean;
@@ -72,8 +75,6 @@ export default class Options extends Vue {
   private userApolloSelected: UserApollo | null = null;
   private loadUser: boolean = false;
   private loadUserErrorMessage: string = "";
-
-  private export: ExportState | null = null;
 
   private mounted() {
     this.loadUsersApollo();
@@ -107,9 +108,10 @@ export default class Options extends Vue {
 
   private sendArticle() {
     if (this.userApolloSelected != null) {
-      this.export = new ExportState();
-      this.export.userNumeroSession = this.userApolloSelected.NumeroSession;
-      this.sendArticlesScan(this.export);
+      this.$store.dispatch("articles/sendArticlesScan", {
+        userSession: this.userApolloSelected.NumeroSession.toString(),
+        routeController: this.modeDestination
+      });
       this.$emit("showSendArticleDialog", false);
     }
   }
