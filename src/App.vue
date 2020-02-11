@@ -40,6 +40,7 @@
         </v-btn>
       </div>
       <div v-else>
+<<<<<<< HEAD
         <v-btn
           icon
           color="green darken-1"
@@ -50,6 +51,18 @@
         >
           <v-icon>mdi-email</v-icon>
         </v-btn>
+=======
+      <v-btn
+        icon
+        color="green darken-1"
+        v-if="isAuthenticated"
+        @click.stop="sendArticlesCommande()"
+        :disabled="articlesScan.length === 0"
+        :loading="loadingSendArticleScan"
+      >
+        <v-icon>mdi-email</v-icon>       
+      </v-btn>
+>>>>>>> AcQuascanner : bouton commande fournisseur
       </div>
     </v-app-bar>
     <v-app-bar app v-else>
@@ -103,6 +116,9 @@ import { AUTH_LOGOUT } from "./store/authentification/const";
 import { modes } from "./store/modes/const";
 import ScanArticle from "./components/ScanArticle.vue";
 import { ScanMode } from "./data/ScanMode";
+import { articles } from './store/articles';
+import {actions} from './store/articles/actions'
+import Axios from 'axios';
 
 @Component({
   components: { ScanArticles, SendArticles }
@@ -141,6 +157,8 @@ export default class App extends Vue {
   private errorMessage!: string;
   @Getter("isAuthenticated", { namespace: "authentificationModule" })
   private isAuthenticated!: boolean;
+  @Action("sendArticlesCommande", { namespace: "articles" })
+  private sendArticlesCommande: any;
 
   public logout() {
     this.$store.dispatch("authentificationModule/" + AUTH_LOGOUT).then(() => {
@@ -160,9 +178,12 @@ export default class App extends Vue {
     this.sendArticlesDialog = value;
   }
 
+<<<<<<< HEAD
   public SendListArticle() {
     //this.articlesScan= ['1','2','3','4'];
   }
+=======
+>>>>>>> AcQuascanner : bouton commande fournisseur
 }
 </script>
 
