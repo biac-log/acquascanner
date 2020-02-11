@@ -22,5 +22,10 @@ export const getters: GetterTree<ModeState, RootState> = {
         if (state.currentMode)
             return state.currentMode.destination;
         return '';
+    },
+    getLastPage(state): string {
+        var result = localStorage.getItem("LastPage");
+        if (result) return result;
+        return '/';
     }
 };

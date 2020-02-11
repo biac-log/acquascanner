@@ -130,6 +130,8 @@ export default class App extends Vue {
   private modeColor!: string;
   @Getter("modeModule/getLibelle")
   private modeLibelle!: string;
+  @Getter("modeModule/getLastPage")
+  private modeLastPage!: string;
 
   @Getter("loadingSendArticleScan", { namespace: "articles" })
   private loadingSendArticleScan!: boolean;
@@ -151,8 +153,15 @@ export default class App extends Vue {
   private created() {
     this.$store.dispatch("articles/initialiseArticleScan");
     this.$store.dispatch("articles/initAllArticlesFromLocalStorage");
+    if (localStorage.getItem("articles")) this.$router.push(this.modeLastPage);
+    this.$store.commit("modeModule/changeCurrentMode", this.$route.name);
+
     this.$router.afterEach((to, from) => {
-      this.$store.commit("modeModule/changeCurrentMode", this.$route.name);
+      this.$store.commit("modeModule/changeCurrentMode", this.$route.name),
+        localStorage.setItem(
+          "LastPage",
+          this.$route.name ? this.$route.name : ""
+        );
     });
   }
 

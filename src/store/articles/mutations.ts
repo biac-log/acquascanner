@@ -61,12 +61,10 @@ export const mutations: MutationTree<ArticlesState> = {
     state.loading = false;
     localStorage.removeItem("articles");
     localStorage.removeItem("AllArticles");
-    localStorage.removeItem("RouteApi");
   },
   resetArticlesScan(state) {
     state.articlesScan = [];
     localStorage.removeItem("articles");
-    localStorage.removeItem("RouteApi");
   },
   initAllArticlesFromLocalStorage(state) {
     const allArticlesFromLocal = localStorage.getItem("AllArticles");
