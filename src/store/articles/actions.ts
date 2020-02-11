@@ -4,6 +4,8 @@ import { ArticlesState } from './types';
 import { RootState } from '../types';
 import { Article } from '../../data/Article';
 import { JsonConvert, ValueCheckingMode } from "json2typescript";
+import router from '@/router';
+
 
 export const actions: ActionTree<ArticlesState, RootState> = {
   refreshArticles({ commit }) {
@@ -69,4 +71,19 @@ export const actions: ActionTree<ArticlesState, RootState> = {
   displaySuccessMessage({ commit }, value: boolean) {
     commit('displaySuccessMessage', value);
   },
+  sendArticlesCommande(context, args: any): any {
+    context.commit('setLoadingSendArticleScan', true);
+    axios.post(process.env.VUE_APP_ApiArticle  + '/Fournisseurs/12/FichierCommande', context.state.articlesScan)
+    .then((r) => {
+      context.commit('resetArticlesScan');
+      context.commit('setErrorMessage', '');
+      context.commit('setSuccessMessage', "L'envoi du bon de commande des articles scannés s'est effectué avec succès.");
+      router.push("/")
+    })
+    .catch((e) => {
+      context.commit('setErrorMessage', 'Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? ' + e.message);
+    }).finally(() => {
+      context.commit('setLoadingSendArticleScan', false)
+    });
+  }
 };
