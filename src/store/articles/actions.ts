@@ -71,7 +71,7 @@ export const actions: ActionTree<ArticlesState, RootState> = {
   displaySuccessMessage({ commit }, value: boolean) {
     commit('displaySuccessMessage', value);
   },
-  sendArticlesCommande(context, args: ExportState): any {
+  sendArticlesCommande(context, args: any): any {
     context.commit('setLoadingSendArticleScan', true);
     axios.post(process.env.VUE_APP_ApiArticle  + '/Fournisseurs/12/FichierCommande', context.state.articlesScan)
     .then((r) => {
