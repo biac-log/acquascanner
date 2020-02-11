@@ -72,6 +72,18 @@ export default new Router({
       beforeEnter: ifAuthenticated,
     },
     {
+      path: '/commande',
+      name: 'Commande',
+      component: ScanArticles,
+      beforeEnter: ifAuthenticated,
+    },
+    {
+      path: '/Etiquettes',
+      name: 'Etiquettes',
+      component: ScanArticles,
+      beforeEnter: ifAuthenticated,
+    },
+    {
       path: '/options',
       name: 'Options',
       component: Options,
@@ -82,12 +94,6 @@ export default new Router({
       name: 'Login',
       component: Login,
       beforeEnter: ifNotAuthenticated,
-    },
-    {
-      path: '/commande',
-      name: 'Commande',
-      component: ScanArticles,
-      beforeEnter: ifAuthenticated,
     },
     {
       path: '*',

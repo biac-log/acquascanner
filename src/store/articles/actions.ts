@@ -85,5 +85,20 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     }).finally(() => {
       context.commit('setLoadingSendArticleScan', false)
     });
+  },
+  PrintEtiquettes(context): any {
+    context.commit('setLoadingSendArticleScan', true);
+    axios.post(process.env.VUE_APP_ApiArticle  + '/Etiquettes', context.state.articlesScan)
+    .then((r) => {
+      context.commit('resetArticlesScan');
+      context.commit('setErrorMessage', '');
+      context.commit('setSuccessMessage', "La demande d'impression a été effectuée avec succès.");
+      router.push("/")
+    })
+    .catch((e) => {
+      context.commit('setErrorMessage', 'Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? ' + e.message);
+    }).finally(() => {
+      context.commit('setLoadingSendArticleScan', false)
+    });
   }
 };

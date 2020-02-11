@@ -50,4 +50,11 @@ export const modes: ScanMode[] = [
         destination: "Commande",
         icon: "mdi-arrow-up-bold-box-outline",
 
+    },
+    {
+        key: "ETI",
+        libelle: "Etiquettes",
+        color: "#FF7043",
+        destination: "Etiquettes",
+        icon: "mdi-note-text",
     }];

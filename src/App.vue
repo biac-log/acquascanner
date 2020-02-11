@@ -27,7 +27,7 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer />
-      <div v-if="modeLibelle!='Commande'">
+      <div v-if="modeLibelle!='Commande' && modeLibelle!='Etiquettes'">
         <v-btn
           icon
           color="green darken-1"
@@ -39,17 +39,29 @@
           <v-icon>mdi-file-document-box-check-outline</v-icon>
         </v-btn>
       </div>
-      <div v-else>
-      <v-btn
-        icon
-        color="green darken-1"
-        v-if="isAuthenticated"
-        @click.stop="sendArticlesCommande()"
-        :disabled="articlesScan.length === 0"
-        :loading="loadingSendArticleScan"
-      >
-        <v-icon>mdi-email</v-icon>       
-      </v-btn>
+      <div v-if="modeLibelle =='Commande'">
+        <v-btn
+          icon
+          color="green darken-1"
+          v-if="isAuthenticated"
+          @click.stop="sendArticlesCommande()"
+          :disabled="articlesScan.length === 0"
+          :loading="loadingSendArticleScan"
+        >
+          <v-icon>mdi-email</v-icon>
+        </v-btn>
+      </div>
+      <div v-if="modeLibelle =='Etiquettes'">
+        <v-btn
+          icon
+          color="green darken-1"
+          v-if="isAuthenticated"
+          @click.stop="printEtiquettes()"
+          :disabled="articlesScan.length === 0"
+          :loading="loadingSendArticleScan"
+        >
+          <v-icon>mdi-printer-wireless</v-icon>
+        </v-btn>
       </div>
     </v-app-bar>
     <v-app-bar app v-else>
@@ -103,9 +115,9 @@ import { AUTH_LOGOUT } from "./store/authentification/const";
 import { modes } from "./store/modes/const";
 import ScanArticle from "./components/ScanArticle.vue";
 import { ScanMode } from "./data/ScanMode";
-import { articles } from './store/articles';
-import {actions} from './store/articles/actions'
-import Axios from 'axios';
+import { articles } from "./store/articles";
+import { actions } from "./store/articles/actions";
+import Axios from "axios";
 
 @Component({
   components: { ScanArticles, SendArticles }
@@ -146,8 +158,11 @@ export default class App extends Vue {
   private errorMessage!: string;
   @Getter("isAuthenticated", { namespace: "authentificationModule" })
   private isAuthenticated!: boolean;
+
   @Action("sendArticlesCommande", { namespace: "articles" })
   private sendArticlesCommande: any;
+  @Action("articles/PrintEtiquettes")
+  private printEtiquettes: any;
 
   public logout() {
     this.$store.dispatch("authentificationModule/" + AUTH_LOGOUT).then(() => {
