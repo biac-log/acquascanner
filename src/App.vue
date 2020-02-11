@@ -40,21 +40,6 @@
         </v-btn>
       </div>
       <div v-else>
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <v-btn
-          icon
-          color="green darken-1"
-          @click.stop="SendCommande();"
-          v-if="isAuthenticated"
-          :disabled="articlesScan.length === 0"
-          :loading="loadingSendArticleScan"
-        >
-          <v-icon>mdi-email</v-icon>
-        </v-btn>
-=======
-=======
->>>>>>> AcQuaScanner : merge
       <v-btn
         icon
         color="green darken-1"
@@ -65,10 +50,6 @@
       >
         <v-icon>mdi-email</v-icon>       
       </v-btn>
-<<<<<<< HEAD
->>>>>>> AcQuascanner : bouton commande fournisseur
-=======
->>>>>>> AcQuaScanner : merge
       </div>
     </v-app-bar>
     <v-app-bar app v-else>
@@ -183,16 +164,6 @@ export default class App extends Vue {
   private showSendArticleDialog(value: boolean) {
     this.sendArticlesDialog = value;
   }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-  public SendListArticle() {
-    //this.articlesScan= ['1','2','3','4'];
-  }
-=======
->>>>>>> AcQuascanner : bouton commande fournisseur
-=======
->>>>>>> AcQuaScanner : merge
 }
 </script>
 
