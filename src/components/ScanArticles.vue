@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-text-field
       label="Code article"
-      class="ma-0 pa-0"
+      class="mb-n5"
       v-model="codeArticle"
       @keyup.enter="checkCodeArticle"
       solo
@@ -12,6 +12,8 @@
       :loading="loadingCode"
       :readonly="loadingCode"
       @keyup="triggerCheck"
+      maxlength="13"
+      clearable
     >
       <v-btn
         slot="append"
@@ -23,12 +25,12 @@
         <v-icon>mdi-check</v-icon>
       </v-btn>
     </v-text-field>
-    <v-alert
+    <!-- <v-alert
       :value="errorMessage != ''"
-      class="mt-n5 mb-5"
+      class="mt-n5 mb-2"
       type="warning"
       border="left"
-    >{{ errorMessage }}</v-alert>
+    >{{ errorMessage }}</v-alert>-->
     <v-data-table
       :footer-props="{
 				'items-per-page-options': [10, 25, 50, -1],
@@ -47,7 +49,7 @@
         <v-toolbar flat color="white">
           <v-toolbar-title>Articles : {{ articles.length }}</v-toolbar-title>
           <div class="flex-grow-1"></div>
-          <v-btn @click="searchArticleDialog = true" text>
+          <v-btn @click="openSearchArticleDialog()" text>
             <v-icon>mdi-magnify-plus-outline</v-icon>
           </v-btn>
         </v-toolbar>
@@ -83,7 +85,7 @@
       >
         <v-card>
           <v-toolbar dark color="primary">
-            <v-btn icon dark @click="searchArticleDialog = false">
+            <v-btn icon dark @click="closeSearchArticleDialog()">
               <v-icon>mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title>Recherche d'articles</v-toolbar-title>
@@ -116,7 +118,7 @@ export default class ScanArticles extends Vue {
   private isReadonly: boolean = false;
   private loadingCode: boolean = false;
   private showError: boolean = false;
-  private errorMessage: string = "";
+  // private errorMessage: string = "";
   private headers = [
     { text: "EAN", value: "CodeEAN" },
     { text: "Libelle", value: "Libelle" },
@@ -158,7 +160,7 @@ export default class ScanArticles extends Vue {
         "articles/getArticleByCodeEAN"
       ](trueCodeArticle);
       if (article) {
-        this.errorMessage = "";
+        this.$store.commit("articles/setErrorMessage", "");
         this.editArticle(article);
         this.articleDialog = true;
       } else {
@@ -175,17 +177,19 @@ export default class ScanArticles extends Vue {
               this.editArticle(response.data);
             } else {
               this.showError = true;
-              this.errorMessage =
-                "L'article " + this.codeArticle + " n'existe pas";
+              this.$store.commit(
+                "articles/setErrorMessage",
+                "L'article " + this.codeArticle + " n'existe pas"
+              );
             }
           })
           .catch(e => {
             this.showError = true;
-            this.errorMessage = e.message;
+            this.$store.commit("articles/setErrorMessage", e.message);
           })
           .finally(() => {
             this.loadingCode = false;
-            this.codeArticle = "";
+            // if (this.codeArticle.length >= 13) this.codeArticle = "";
           });
       }
     }
@@ -202,7 +206,7 @@ export default class ScanArticles extends Vue {
   }
 
   private editArticleFromSearch(article: Article) {
-    this.searchArticleDialog = false;
+    this.closeSearchArticleDialog;
     const art: Article = this.$store.getters["articles/getArticleScanByCode"](
       article.CodeEAN
     );
@@ -213,6 +217,14 @@ export default class ScanArticles extends Vue {
     }
   }
 
+  private openSearchArticleDialog() {
+    this.searchArticleDialog = true;
+    document.documentElement.style.overflow = "hidden";
+  }
+  private closeSearchArticleDialog() {
+    this.searchArticleDialog = false;
+    document.documentElement.style.overflow = "auto";
+  }
   private closeArticleWindow() {
     window.scrollTo(0, 0);
     this.articleDialog = false;

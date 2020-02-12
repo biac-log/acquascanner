@@ -16,7 +16,7 @@
     </v-app-bar>
     <v-app-bar app v-else-if="modeIsDefined" :color="modeColor">
       <router-link to="/" black>
-        <v-btn icon>
+        <v-btn icon :color="colorButton">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
       </router-link>
@@ -30,7 +30,7 @@
       <div v-if="modeLibelle!='Commande' && modeLibelle!='Etiquettes'">
         <v-btn
           icon
-          color="green darken-1"
+          :color="this.colorButton"
           @click.stop="sendArticlesDialog = !sendArticlesDialog"
           v-if="isAuthenticated"
           :disabled="articlesScan.length === 0"
@@ -42,7 +42,7 @@
       <div v-if="modeLibelle =='Commande'">
         <v-btn
           icon
-          color="green darken-1"
+          :color="colorButton"
           v-if="isAuthenticated"
           @click.stop="sendArticlesCommande()"
           :disabled="articlesScan.length === 0"
@@ -51,12 +51,12 @@
           <v-icon>mdi-email</v-icon>
         </v-btn>
       </div>
-      <div v-if="modeLibelle =='Etiquettes'">
+      <div v-if="modeLibelle === 'Etiquettes'">
         <v-btn
           icon
-          color="green darken-1"
+          :color="colorButton"
           v-if="isAuthenticated"
-          @click.stop="printEtiquettes()"
+          @click.stop="printEtiquettes"
           :disabled="articlesScan.length === 0"
           :loading="loadingSendArticleScan"
         >
@@ -64,10 +64,10 @@
         </v-btn>
       </div>
     </v-app-bar>
-    <v-app-bar app v-else>
+    <v-app-bar app v-else-if="this.$route.name === 'Options'">
       <router-link to="/" black>
         <v-btn icon>
-          <v-icon>mdi-arrow-left</v-icon>
+          <v-icon >mdi-arrow-left</v-icon>
         </v-btn>
       </router-link>
       <v-spacer />
@@ -80,13 +80,20 @@
       <v-spacer />
       <v-spacer />
     </v-app-bar>
+    <v-app-bar app v-else-if="this.$route.name === 'Login'" color=blue>
+      <v-spacer />
+      <v-toolbar-title short>
+          <span>Connexion</span>
+      </v-toolbar-title>
+      <v-spacer />
+    </v-app-bar>
 
     <v-content>
       <v-alert
         :value="errorMessage != ''"
         type="warning"
         border="left"
-        class="mt-5 ml-5 mr-5"
+        class="mt-2 ml-3 mr-3 mb-n1"
       >{{ errorMessage }}</v-alert>
       <keep-alive>
         <router-view />
@@ -135,6 +142,7 @@ export default class App extends Vue {
   private sendArticlesDialog: boolean = false;
   private currentMode?: ScanMode = undefined;
   private InventaireDialog: boolean = false;
+  private colorButton: string = "black";
 
   @Action("displaySuccessMessage", { namespace: "articles" })
   private actionDisplaySuccessMessage: any;
@@ -181,7 +189,8 @@ export default class App extends Vue {
         localStorage.setItem(
           "LastPage",
           this.$route.name ? this.$route.name : ""
-        );
+        ),
+        this.$store.commit('articles/setErrorMessage','');
     });
   }
 

@@ -1,14 +1,14 @@
 <template>
-  <div id="app">
+  <div id="app" @keypress.enter="login">
     <v-app id="inspire">
       <v-content>
         <v-container fluid fill-height>
-          <v-layout align-center justify-center>
+          <v-layout align-top justify-center>
             <v-flex xs12 sm8 md4>
-              <v-card class="elevation-12" :loading="loading" :readonly="loading">
-                <v-toolbar color="primary" dark flat>
+              <!-- <v-card class="elevation-12" :loading="loading" :readonly="loading"> -->
+                <!-- <v-toolbar color="primary" dark flat>
                   <v-toolbar-title>Connexion</v-toolbar-title>
-                </v-toolbar>
+                </v-toolbar> -->
                 <v-card-text>
                   <v-form>
                     <v-text-field
@@ -17,6 +17,7 @@
                       prepend-icon="mdi-account"
                       type="text"
                       v-model="username"
+                      autofocus=true
                     ></v-text-field>
 
                     <v-text-field
@@ -38,7 +39,7 @@
                 <v-card-text v-if="errorMessage != ''">
                   <v-alert type="warning">{{ errorMessage }}</v-alert>
                 </v-card-text>
-              </v-card>
+              <!-- </v-card> -->
             </v-flex>
           </v-layout>
         </v-container>
@@ -69,6 +70,8 @@ export default class Login extends Vue {
         password,
       })
       .then(() => {
+        this.username="";
+        this.password="";
         this.$router.push("/");
       })
       .catch((reaseon) => {

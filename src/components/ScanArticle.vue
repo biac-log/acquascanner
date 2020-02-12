@@ -84,13 +84,24 @@
           <span class="align-self-center mx-2">
             <v-btn color="success" @click="addArticle" :disabled="!valid">
               <v-icon>mdi-check</v-icon>
-              <div v-if="!isEdit">Valider</div>
+              <!-- <div v-if="!isEdit">Valider</div> -->
             </v-btn>
           </span>
           <span class="align-self-center">
             <v-btn color="error" @click="deleteArticle">
               <v-icon>mdi-delete-outline</v-icon>
             </v-btn>
+          </span>
+
+          <span class="align-self-center mx-2">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn color="#FF7043" @click="printEtiquettes" v-on="on">
+                  <v-icon color="white">mdi-printer-wireless</v-icon>
+                </v-btn>
+              </template>
+              <span>Imprimer étiquettes</span>
+            </v-tooltip>
           </span>
         </v-col>
       </v-row>
@@ -102,6 +113,7 @@
 import { State, Action, Getter } from "vuex-class";
 import { Component, Vue, Emit } from "vue-property-decorator";
 import { Article } from "../data/Article";
+import axios from "axios";
 
 @Component({})
 export default class ScanArticle extends Vue {
@@ -161,17 +173,12 @@ export default class ScanArticle extends Vue {
   @Emit("actionPerform")
   private addArticle() {
     if (this.valid) {
-      const article: Article = new Article();
-      article.Code = this.code;
-      article.CodeEAN = this.codeEAN;
-      article.Libelle = this.nom;
-      article.ReferenceFournisseur = this.ReferenceFournisseur;
+      const article: Article = this.GetArticle();
       article.Quantite = Number.parseFloat(this.quantite);
 
       if (this.quantiteAdd || this.quantiteAdd !== "") {
         article.Quantite += Number.parseFloat(this.quantiteAdd);
       }
-
       this.addArticleScan(article);
       this.clearData();
     }
@@ -184,6 +191,34 @@ export default class ScanArticle extends Vue {
       this.removeArticleScan(this.code);
     }
     this.clearData();
+  }
+
+  private printEtiquettes() {
+    let articles: Article[] = [this.GetArticle()];
+    axios
+      .post(process.env.VUE_APP_ApiArticle + "/Etiquettes", articles)
+      .then(r => {
+        this.$store.commit(
+          "articles/setSuccessMessage",
+          "La demande d'impression a été effectuée avec succès."
+        );
+      })
+      .catch(e => {
+        this.$store.commit(
+          "articles/setErrorMessage",
+          "Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? " +
+            e.message
+        );
+      });
+  }
+
+  private GetArticle(): Article {
+    const article: Article = new Article();
+    article.Code = this.code;
+    article.CodeEAN = this.codeEAN;
+    article.Libelle = this.nom;
+    article.ReferenceFournisseur = this.ReferenceFournisseur;
+    return article;
   }
 
   private clearData() {
