@@ -7,15 +7,17 @@ export const mutations: MutationTree<AuthentificationState> = {
         state.status = "loading";
     },
     [c.AUTH_SUCCESS]: (state, resp) => {
+        localStorage.setItem("user-token", resp.value);
         state.status = "success";
-        state.token = resp;
+        state.token = resp.value;
         state.hasLoadedOnce = true;
     },
     [c.AUTH_ERROR]: (state) => {
         state.status = "error";
         state.hasLoadedOnce = true;
     },
-    [c.AUTH_LOGOUT]: (state) => {
+    [c.AUTH_LOGOUT]: (state, rootstate) => {
+        localStorage.removeItem("user-token");
         state.token = "";
     },
 };

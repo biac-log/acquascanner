@@ -1,5 +1,5 @@
 export interface AuthentificationState {
-    token: any;
+    token: string ;
     status: string;
     hasLoadedOnce: boolean;
   }

@@ -6,6 +6,7 @@ import Options from './views/Options.vue';
 import Login from './components/Login.vue';
 import store from './store'; // your vuex store
 import PrintArticle from './components/PrintArticle.vue'
+import { modes } from './store/modes/const'
 
 Vue.use(Router);
 
@@ -25,6 +26,18 @@ const ifAuthenticated: NavigationGuard = (to, from, next) => {
   next('/login');
 };
 
+const haveAuthorization: NavigationGuard = (to, from, next) => {
+  if (store.getters["authentificationModule/isAuthenticated"]) {
+    var modeDest = modes.find(m => m.destination === to.name);
+    var droits = store.getters["UserModule/getDroits"];
+    if (modeDest && droits && droits.includes(modeDest.permissionId)) {
+        next();
+        return;
+      }
+  }
+  next('/');
+}
+
 export default new Router({
   mode: 'history',
   routes: [
@@ -33,43 +46,42 @@ export default new Router({
       name: 'Main',
       component: ScanModes,
       beforeEnter: ifAuthenticated,
-
     },
     {
       path: '/Inventaire',
       name: 'Inventaire',
       component: ScanArticles,
-      beforeEnter: ifAuthenticated,
+      beforeEnter: haveAuthorization,
     },
     {
       path: '/Entree',
       name: 'Entree',
       component: ScanArticles,
-      beforeEnter: ifAuthenticated,
+      beforeEnter: haveAuthorization,
     },
     {
       path: '/RectPlus',
       name: 'RectPlus',
       component: ScanArticles,
-      beforeEnter: ifAuthenticated,
+      beforeEnter: haveAuthorization,
     },
     {
       path: '/RectMinus',
       name: 'RectMinus',
       component: ScanArticles,
-      beforeEnter: ifAuthenticated,
+      beforeEnter: haveAuthorization,
     },
     {
       path: '/Vente',
       name: 'Vente',
       component: ScanArticles,
-      beforeEnter: ifAuthenticated,
+      beforeEnter: haveAuthorization,
     },
     {
       path: '/Livraison',
       name: 'Livraison',
       component: ScanArticles,
-      beforeEnter: ifAuthenticated,
+      beforeEnter: haveAuthorization,
     },
     {
       path: '/commande',
@@ -101,3 +113,4 @@ export default new Router({
     },
   ],
 });
+
