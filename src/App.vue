@@ -21,37 +21,44 @@
         </v-btn>
       </router-link>
       <v-spacer />
-      <v-toolbar-title class="text-uppercase" short>
-        <router-link to="/" black>
-          <span class="font-weight">{{modeLibelle}}</span>
-        </router-link>
-      </v-toolbar-title>
+        <v-app-bar-title short  v-if="modeLibelle === 'Commande'"> 
+      <router-link black to="ChoixFournisseur">
+          <div class="font-weight text-center headline">{{modeLibelle}}</div>
+          <div class="subtitle-2 text-center">{{fournisseurName}}</div>
+      </router-link>
+        </v-app-bar-title>
+          <v-app-bar-title short  v-else >
+              <div class="font-weight text-center headline">{{modeLibelle}}</div>
+          </v-app-bar-title> 
       <v-spacer />
-      <div v-if="modeLibelle!='Commande' && modeLibelle!='Etiquettes'">
+      <div v-if="modeLibelle!='Commande' && modeLibelle!='Etiquettes' && modeLibelle!='ChoixFournisseur'">
         <v-btn
           icon
           :color="this.colorButton"
           @click.stop="sendArticlesDialog = !sendArticlesDialog"
           v-if="isAuthenticated"
           :disabled="articlesScan.length === 0"
-          :loading="loadingSendArticleScan"
-        >
+          :loading="loadingSendArticleScan">
           <v-icon>mdi-file-document-box-check-outline</v-icon>
         </v-btn>
       </div>
-      <div v-if="modeLibelle =='Commande'">
+      <div v-else-if="modeLibelle =='ChoixFournisseur'" >
+        <v-btn icon @click="refreshFournisseurs()">
+              <v-icon>mdi-refresh</v-icon>
+            </v-btn>
+            </div>
+      <div v-else-if="modeLibelle =='Commande'">
         <v-btn
           icon
           :color="colorButton"
           v-if="isAuthenticated"
           @click.stop="sendArticlesCommande()"
           :disabled="articlesScan.length === 0"
-          :loading="loadingSendArticleScan"
-        >
-          <v-icon>mdi-email</v-icon>
+          :loading="loadingSendArticleScan">
+          <v-icon>mdi-truck</v-icon>
         </v-btn>
       </div>
-      <div v-if="modeLibelle === 'Etiquettes'">
+      <div v-else-if="modeLibelle === 'Etiquettes'">
         <v-btn
           icon
           :color="colorButton"
@@ -106,7 +113,7 @@
     <v-snackbar v-model="displaySuccessMessage" color="success" :timeout="5000">
       {{ successMessage }}
       <v-btn dark text @click="displaySuccessMessage = false">
-        <v-icon>mdi-close</v-icon>
+        <v-icon> mdi-close</v-icon>
       </v-btn>
     </v-snackbar>
   </v-app>
@@ -120,6 +127,7 @@ import Article from "./data/Article.vue";
 import { State, Action, Getter, namespace } from "vuex-class";
 import { AUTH_LOGOUT } from "./store/authentification/const";
 import { modes } from "./store/modes/const";
+import SearchFournisseur from './components/SearchFournisseur.vue'
 import ScanArticle from "./components/ScanArticle.vue";
 import { ScanMode } from "./data/ScanMode";
 import { articles } from "./store/articles";
@@ -136,6 +144,7 @@ export default class App extends Vue {
   set displaySuccessMessage(value: boolean) {
     this.actionDisplaySuccessMessage(value);
   }
+  private sendFournisseurDialog : boolean = true;
   private drawer: boolean = false;
   private miniVariant: boolean = false;
   private clipped: boolean = true;
@@ -156,6 +165,9 @@ export default class App extends Vue {
   @Getter("modeModule/getLastPage")
   private modeLastPage!: string;
 
+  @Getter("fournisseursModule/getFournisseurName")
+  private fournisseurName!: string;
+
   @Getter("loadingSendArticleScan", { namespace: "articles" })
   private loadingSendArticleScan!: boolean;
   @Getter("successMessage", { namespace: "articles" })
@@ -171,6 +183,8 @@ export default class App extends Vue {
   private sendArticlesCommande: any;
   @Action("articles/PrintEtiquettes")
   private printEtiquettes: any;
+    @Action("fournisseursModule/refreshFournisseurs")
+  private refreshFournisseurs: any;
 
   public logout() {
     this.$store.dispatch("authentificationModule/" + AUTH_LOGOUT).then(() => {
@@ -196,6 +210,10 @@ export default class App extends Vue {
 
   private showSendArticleDialog(value: boolean) {
     this.sendArticlesDialog = value;
+  }
+
+  private sendFournisseur(){
+    this.$route.name="/choixFourniseur"
   }
 }
 </script>

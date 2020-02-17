@@ -13,6 +13,8 @@ export const state: ArticlesState = {
   successMessage: '',
   displaySuccessMessage: false,
   loadingSendArticleScan: false,
+  fournisseurExist : false,
+  fournisseurName : '',
 };
 
 const namespaced: boolean = true;

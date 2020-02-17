@@ -52,6 +52,14 @@ export const modes: ScanMode[] = [
 
     },
     {
+        key: "FOU",
+        libelle: "ChoixFournisseur",
+        color: "#76B041",
+        destination: "ChoixFournisseur",
+        icon: "mdi-arrow-up-bold-box-outline",
+
+    },
+    {
         key: "ETI",
         libelle: "Etiquettes",
         color: "#FF7043",

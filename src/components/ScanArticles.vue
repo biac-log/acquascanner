@@ -97,6 +97,26 @@
           <SearchArticles @elementClick="editArticleFromSearch" />
         </v-card>
       </v-dialog>
+       <v-dialog 
+        v-model="searchFournisseurDialog"
+        eager
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+      >
+        <v-card>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="searchFournisseurDialog = false">
+            </v-btn>
+            <v-toolbar-title>Recherche de fournisseur</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn icon dark @click="refreshArticles()"> <!-- Changer la méthode -->
+              <v-icon>mdi-refresh</v-icon>
+            </v-btn>
+          </v-toolbar>
+          <SearchArticles @elementClick="editArticleFromSearch" />
+        </v-card>
+      </v-dialog>
     </v-layout>
   </v-container>
 </template>
@@ -114,6 +134,7 @@ const namespace: string = "articles";
 export default class ScanArticles extends Vue {
   private articleDialog: boolean = false;
   private searchArticleDialog: boolean = false;
+  private searchFournisseurDialog: boolean = false;
   private codeArticle: string = "";
   private isReadonly: boolean = false;
   private loadingCode: boolean = false;

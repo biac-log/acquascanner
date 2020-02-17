@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router, { NavigationGuard } from 'vue-router';
+import SearchFournisseur from './components/SearchFournisseur.vue';
 import ScanArticles from './components/ScanArticles.vue';
 import ScanModes from './components/ScanModes.vue';
 import Options from './views/Options.vue';
@@ -94,6 +95,12 @@ export default new Router({
       name: 'Login',
       component: Login,
       beforeEnter: ifNotAuthenticated,
+    },
+    {
+      path: '/ChoixFournisseur',
+      name: 'ChoixFournisseur',
+      component: SearchFournisseur,
+      beforeEnter: ifAuthenticated,
     },
     {
       path: '*',
