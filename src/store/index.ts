@@ -4,6 +4,7 @@ import { RootState } from './types';
 import { articles } from './articles/index';
 import { authentificationModule } from './authentification/index';
 import { modeModule } from './modes/index';
+import { UserModule } from './user/index';
 
 Vue.use(Vuex);
 
@@ -16,7 +17,8 @@ const store: StoreOptions<RootState> = {
   modules: {
     articles,
     authentificationModule,
-    modeModule
+    modeModule,
+    UserModule,
   },
 };
 

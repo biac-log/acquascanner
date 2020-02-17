@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row dense>
-      <v-col cols="12" md="4" v-for="i in navigation" :key="i.key">
+      <v-col cols="12" md="4" v-for="i in getModesAuthorized()" :key="i.key">
         <v-card dark>
           <v-list :color="i.color" class="py-0">
             <v-list-item :to="i.destination">
@@ -58,7 +58,21 @@ import { modes } from "../store/modes/const";
 
 @Component({})
 export default class ScanModes extends Vue {
-  public navigation = modes;
+  
+  @Getter("UserModule/getDroits")
+  private droits!: string[];
+
+  private getModesAuthorized(): ScanMode[] {
+    var result: ScanMode[] = [];
+    modes.forEach(e => {
+      if (
+        e.permissionId === "" ||
+        (this.droits !== null && this.droits.includes(e.permissionId))
+      )
+        result.push(e);
+    });
+    return result;
+  }
 }
 </script>
 

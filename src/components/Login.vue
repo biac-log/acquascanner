@@ -6,39 +6,38 @@
           <v-layout align-top justify-center>
             <v-flex xs12 sm8 md4>
               <!-- <v-card class="elevation-12" :loading="loading" :readonly="loading"> -->
-                <!-- <v-toolbar color="primary" dark flat>
+              <!-- <v-toolbar color="primary" dark flat>
                   <v-toolbar-title>Connexion</v-toolbar-title>
-                </v-toolbar> -->
-                <v-card-text>
-                  <v-form>
-                    <v-text-field
-                      label="Utilisateur"
-                      name="login"
-                      prepend-icon="mdi-account"
-                      type="text"
-                      v-model="username"
-                      autofocus=true
-                    ></v-text-field>
+              </v-toolbar>-->
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    label="Utilisateur"
+                    name="login"
+                    prepend-icon="mdi-account"
+                    type="text"
+                    v-model="username"
+                  ></v-text-field>
 
-                    <v-text-field
-                      id="password"
-                      label="Mot de passe"
-                      name="password"
-                      prepend-icon="mdi-lock"
-                      type="password"
-                      v-model="password"
-                    ></v-text-field>
-                  </v-form>
-                </v-card-text>
+                  <v-text-field
+                    id="password"
+                    label="Mot de passe"
+                    name="password"
+                    prepend-icon="mdi-lock"
+                    type="password"
+                    v-model="password"
+                  ></v-text-field>
+                </v-form>
+              </v-card-text>
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" @click="login">Se connecter</v-btn>
-                </v-card-actions>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" @click="login">Se connecter</v-btn>
+              </v-card-actions>
 
-                <v-card-text v-if="errorMessage != ''">
-                  <v-alert type="warning">{{ errorMessage }}</v-alert>
-                </v-card-text>
+              <v-card-text v-if="errorMessage != ''">
+                <v-alert type="warning">{{ errorMessage }}</v-alert>
+              </v-card-text>
               <!-- </v-card> -->
             </v-flex>
           </v-layout>
@@ -51,7 +50,9 @@
 <script lang='ts'>
 import { State, Action, Getter } from "vuex-class";
 import { Component, Vue } from "vue-property-decorator";
-import { AUTH_REQUEST } from "../store/authentification/const";
+import {
+  AUTH_REQUEST,
+} from "../store/authentification/const";
 
 @Component({})
 export default class Login extends Vue {
@@ -67,14 +68,15 @@ export default class Login extends Vue {
     this.$store
       .dispatch("authentificationModule/" + AUTH_REQUEST, {
         username,
-        password,
+        password
       })
       .then(() => {
-        this.username="";
-        this.password="";
+        this.$store.dispatch("UserModule/LoadUser")
+        this.username = "";
+        this.password = "";
         this.$router.push("/");
       })
-      .catch((reaseon) => {
+      .catch(reaseon => {
         this.errorMessage = reaseon;
       })
       .finally(() => {
