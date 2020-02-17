@@ -14,25 +14,23 @@
         <v-icon>mdi-settings</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-app-bar app v-else-if="modeIsDefined" :color="modeColor">
-      <router-link to="/" black>
-        <v-btn icon :color="colorButton">
+    <v-app-bar app v-else-if="modeIsDefined" :color="modeColor" dark>
+      <router-link to="/">
+        <v-btn icon>
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
       </router-link>
       <v-spacer />
-      <v-toolbar-title class="text-uppercase" short>
-        <router-link to="/" black>
-          <span class="font-weight">{{modeLibelle}}</span>
+      <v-toolbar-title short>
+        <router-link to="/" class="router-link-white">
+          <span class="font-weight white-text">{{modeLibelle}}</span>
         </router-link>
       </v-toolbar-title>
       <v-spacer />
       <div v-if="modeLibelle!='Commande' && modeLibelle!='Etiquettes'">
         <v-btn
           icon
-          :color="this.colorButton"
           @click.stop="sendArticlesDialog = !sendArticlesDialog"
-          v-if="isAuthenticated"
           :disabled="articlesScan.length === 0"
           :loading="loadingSendArticleScan"
         >
@@ -42,8 +40,6 @@
       <div v-if="modeLibelle =='Commande'">
         <v-btn
           icon
-          :color="colorButton"
-          v-if="isAuthenticated"
           @click.stop="sendArticlesCommande()"
           :disabled="articlesScan.length === 0"
           :loading="loadingSendArticleScan"
@@ -54,8 +50,6 @@
       <div v-if="modeLibelle === 'Etiquettes'">
         <v-btn
           icon
-          :color="colorButton"
-          v-if="isAuthenticated"
           @click.stop="printEtiquettes"
           :disabled="articlesScan.length === 0"
           :loading="loadingSendArticleScan"
@@ -67,7 +61,7 @@
     <v-app-bar app v-else-if="this.$route.name === 'Options'">
       <router-link to="/" black>
         <v-btn icon>
-          <v-icon >mdi-arrow-left</v-icon>
+          <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
       </router-link>
       <v-spacer />
@@ -80,10 +74,10 @@
       <v-spacer />
       <v-spacer />
     </v-app-bar>
-    <v-app-bar app v-else-if="this.$route.name === 'Login'" color=blue>
+    <v-app-bar app v-else-if="this.$route.name === 'Login'" color="blue">
       <v-spacer />
       <v-toolbar-title short>
-          <span>Connexion</span>
+        <span>Connexion</span>
       </v-toolbar-title>
       <v-spacer />
     </v-app-bar>
@@ -190,7 +184,7 @@ export default class App extends Vue {
           "LastPage",
           this.$route.name ? this.$route.name : ""
         ),
-        this.$store.commit('articles/setErrorMessage','');
+        this.$store.commit("articles/setErrorMessage", "");
     });
   }
 
@@ -204,5 +198,9 @@ export default class App extends Vue {
 a {
   color: black !important; /* blue colors for links too */
   text-decoration: inherit; /* no underline */
+}
+
+.router-link-white {
+  color: white !important; /* blue colors for links too */
 }
 </style>

@@ -189,7 +189,8 @@ export default class ScanArticles extends Vue {
           })
           .finally(() => {
             this.loadingCode = false;
-            // if (this.codeArticle.length >= 13) this.codeArticle = "";
+            // if (this.codeArticle.length >= 13)
+            this.codeArticle = "";
           });
       }
     }
