@@ -16,7 +16,7 @@ export const actions: ActionTree<UserState, RootState> = {
                     resolve(resp);
                 })
                 .catch((err) => {
-                    let errorMessage: string = "Impossible de se connecter au serveur d'authentification";
+                    let errorMessage: string = "Impossible de se connecter au serveur de gestion des droits";
                     if (err.response && err.response.status === 400) {
                         errorMessage = err.response.data.Message;
                     }

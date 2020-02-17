@@ -5,13 +5,12 @@ import ScanModes from './components/ScanModes.vue';
 import Options from './views/Options.vue';
 import Login from './components/Login.vue';
 import store from './store'; // your vuex store
-import PrintArticle from './components/PrintArticle.vue'
 import { modes } from './store/modes/const'
 
 Vue.use(Router);
 
 const ifNotAuthenticated: NavigationGuard = (to, from, next) => {
-  if (!store.getters["authentificationModule/isAuthenticated"]) {
+  if (!store.getters["authentificationModule/isAuthenticated"]()) {
     next();
     return;
   }
@@ -19,7 +18,7 @@ const ifNotAuthenticated: NavigationGuard = (to, from, next) => {
 };
 
 const ifAuthenticated: NavigationGuard = (to, from, next) => {
-  if (store.getters["authentificationModule/isAuthenticated"]) {
+  if (store.getters["authentificationModule/isAuthenticated"]()) {
     next();
     return;
   }
@@ -27,15 +26,17 @@ const ifAuthenticated: NavigationGuard = (to, from, next) => {
 };
 
 const haveAuthorization: NavigationGuard = (to, from, next) => {
-  if (store.getters["authentificationModule/isAuthenticated"]) {
+  if (!store.getters["authentificationModule/isAuthenticated"]()) {
+    next('/login');
+    return;
+  }
     var modeDest = modes.find(m => m.destination === to.name);
     var droits = store.getters["UserModule/getDroits"];
     if (modeDest && droits && droits.includes(modeDest.permissionId)) {
-        next();
-        return;
-      }
-  }
-  next('/');
+      next();
+      return;
+    }
+    next('/');
 }
 
 export default new Router({

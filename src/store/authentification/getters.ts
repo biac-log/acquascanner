@@ -4,8 +4,9 @@ import { RootState } from '../types';
 
 export const getters: GetterTree<AuthentificationState, RootState> = {
 
-    isAuthenticated(state) {
-        const result = !!state.token;
+    isAuthenticated: (state) => () => {
+        let result = !!state.token;
+        if (result) result = Number(state.expire) > Date.now();
         return result;
     },
     authStatus(state) {

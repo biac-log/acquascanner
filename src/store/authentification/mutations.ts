@@ -7,9 +7,12 @@ export const mutations: MutationTree<AuthentificationState> = {
         state.status = "loading";
     },
     [c.AUTH_SUCCESS]: (state, resp) => {
+        var dateExpire: string = ((resp.expires_in + Date.now()).toString());
         localStorage.setItem("user-token", resp.value);
-        state.status = "success";
+        localStorage.setItem("token-expire", dateExpire);
         state.token = resp.value;
+        state.expire = dateExpire;
+        state.status = "success";
         state.hasLoadedOnce = true;
     },
     [c.AUTH_ERROR]: (state) => {
@@ -19,5 +22,8 @@ export const mutations: MutationTree<AuthentificationState> = {
     [c.AUTH_LOGOUT]: (state, rootstate) => {
         localStorage.removeItem("user-token");
         state.token = "";
+        localStorage.removeItem("token-expire");
+        state.expire = "";
     },
 };
+

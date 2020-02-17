@@ -7,7 +7,7 @@ export const mutations: MutationTree<UserState> = {
         if (user !== undefined) {
             state.userName = user.NomPrenom;
             if (user.Permissions !== undefined) {
-                var localDroit = '';
+                let localDroit = '';
                 user.Permissions.forEach(e => {
                     state.permissions.push(e.Id);
                     localDroit += `${e.Id}#`;
