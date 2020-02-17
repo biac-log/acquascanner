@@ -4,4 +4,5 @@ export class ScanMode {
     public color: string = '';
     public destination: string = '';
     public icon: string = '';
+    public permissionId : string = '';
 }

@@ -14,13 +14,14 @@
         <v-icon>mdi-settings</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-app-bar app v-else-if="modeIsDefined" :color="modeColor">
-      <router-link to="/" black>
-        <v-btn icon :color="colorButton">
+    <v-app-bar app v-else-if="modeIsDefined" :color="modeColor" dark>
+      <router-link to="/">
+        <v-btn icon>
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
       </router-link>
       <v-spacer />
+<<<<<<< HEAD
         <v-app-bar-title short  v-if="modeLibelle === 'Commande'"> 
       <router-link black to="ChoixFournisseur">
           <div class="font-weight text-center headline">{{modeLibelle}}</div>
@@ -30,13 +31,18 @@
           <v-app-bar-title short  v-else >
               <div class="font-weight text-center headline">{{modeLibelle}}</div>
           </v-app-bar-title> 
+=======
+      <v-toolbar-title short>
+        <router-link to="/" class="router-link-white">
+          <span class="font-weight white-text">{{modeLibelle}}</span>
+        </router-link>
+      </v-toolbar-title>
+>>>>>>> 50ce210d90cd99605d7f5e19891c6e1dc6775e14
       <v-spacer />
       <div v-if="modeLibelle!='Commande' && modeLibelle!='Etiquettes' && modeLibelle!='ChoixFournisseur'">
         <v-btn
           icon
-          :color="this.colorButton"
           @click.stop="sendArticlesDialog = !sendArticlesDialog"
-          v-if="isAuthenticated"
           :disabled="articlesScan.length === 0"
           :loading="loadingSendArticleScan">
           <v-icon>mdi-file-document-box-check-outline</v-icon>
@@ -50,8 +56,6 @@
       <div v-else-if="modeLibelle =='Commande'">
         <v-btn
           icon
-          :color="colorButton"
-          v-if="isAuthenticated"
           @click.stop="sendArticlesCommande()"
           :disabled="articlesScan.length === 0"
           :loading="loadingSendArticleScan">
@@ -61,8 +65,6 @@
       <div v-else-if="modeLibelle === 'Etiquettes'">
         <v-btn
           icon
-          :color="colorButton"
-          v-if="isAuthenticated"
           @click.stop="printEtiquettes"
           :disabled="articlesScan.length === 0"
           :loading="loadingSendArticleScan"
@@ -74,7 +76,7 @@
     <v-app-bar app v-else-if="this.$route.name === 'Options'">
       <router-link to="/" black>
         <v-btn icon>
-          <v-icon >mdi-arrow-left</v-icon>
+          <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
       </router-link>
       <v-spacer />
@@ -87,10 +89,10 @@
       <v-spacer />
       <v-spacer />
     </v-app-bar>
-    <v-app-bar app v-else-if="this.$route.name === 'Login'" color=blue>
+    <v-app-bar app v-else-if="this.$route.name === 'Login'" color="blue">
       <v-spacer />
       <v-toolbar-title short>
-          <span>Connexion</span>
+        <span>Connexion</span>
       </v-toolbar-title>
       <v-spacer />
     </v-app-bar>
@@ -204,7 +206,7 @@ export default class App extends Vue {
           "LastPage",
           this.$route.name ? this.$route.name : ""
         ),
-        this.$store.commit('articles/setErrorMessage','');
+        this.$store.commit("articles/setErrorMessage", "");
     });
   }
 
@@ -223,4 +225,12 @@ a {
   color: black !important; /* blue colors for links too */
   text-decoration: inherit; /* no underline */
 }
+<<<<<<< HEAD
 </style>
+=======
+
+.router-link-white {
+  color: white !important; /* blue colors for links too */
+}
+</style>
+>>>>>>> 50ce210d90cd99605d7f5e19891c6e1dc6775e14

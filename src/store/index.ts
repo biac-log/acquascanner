@@ -4,8 +4,12 @@ import { RootState } from './types';
 import { articles } from './articles/index';
 import { authentificationModule } from './authentification/index';
 import { modeModule } from './modes/index';
+<<<<<<< HEAD
 import {fournisseursModule} from './fournisseurs/index'
 
+=======
+import { UserModule } from './user/index';
+>>>>>>> 50ce210d90cd99605d7f5e19891c6e1dc6775e14
 
 Vue.use(Vuex);
 
@@ -19,7 +23,11 @@ const store: StoreOptions<RootState> = {
     articles,
     authentificationModule,
     modeModule,
+<<<<<<< HEAD
     fournisseursModule,
+=======
+    UserModule,
+>>>>>>> 50ce210d90cd99605d7f5e19891c6e1dc6775e14
   },
 };
 

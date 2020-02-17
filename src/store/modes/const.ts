@@ -7,6 +7,7 @@ export const modes: ScanMode[] = [
         color: "#DD2C00",
         destination: "Inventaire",
         icon: "mdi-barcode-scan",
+        permissionId: "ACQUASCANNERINV"
     },
     {
         key: "ENT",
@@ -14,6 +15,7 @@ export const modes: ScanMode[] = [
         color: "#FFAB00",
         destination: "Entree",
         icon: "mdi-truck",
+        permissionId: "ACQUASCANNERENTREE"
     },
     {
         key: "RCP",
@@ -21,6 +23,7 @@ export const modes: ScanMode[] = [
         color: "#00BFA5",
         destination: "RectPlus",
         icon: "mdi-plus-circle",
+        permissionId: "ACQUASCANNERRCP"
     },
     {
         key: "RCM",
@@ -28,6 +31,7 @@ export const modes: ScanMode[] = [
         color: "#0091EA",
         destination: "RectMinus",
         icon: "mdi-minus-circle",
+        permissionId: "ACQUASCANNERRCP"
     },
     {
         key: "VEN",
@@ -35,6 +39,7 @@ export const modes: ScanMode[] = [
         color: "#AA00FF",
         destination: "Vente",
         icon: "mdi-cart",
+        permissionId: "ACQUASCANNERVEN"
     },
     {
         key: "LIV",
@@ -42,6 +47,7 @@ export const modes: ScanMode[] = [
         color: "#C51162",
         destination: "Livraison",
         icon: "mdi-dolly",
+        permissionId: "ACQUASCANNERLIV"
     },
     {
         key: "COM",
@@ -49,7 +55,7 @@ export const modes: ScanMode[] = [
         color: "#76B041",
         destination: "Commande",
         icon: "mdi-arrow-up-bold-box-outline",
-
+        permissionId: ""
     },
     {
         key: "FOU",
@@ -65,4 +71,5 @@ export const modes: ScanMode[] = [
         color: "#FF7043",
         destination: "Etiquettes",
         icon: "mdi-note-text",
+        permissionId: ""
     }];
