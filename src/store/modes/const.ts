@@ -4,7 +4,7 @@ export const modes: ScanMode[] = [
     {
         key: "ENT",
         libelle: "Entrée",
-        color: "#FFAB00",
+        color: "#DD2C00",
         destination: "Entree",
         icon: "mdi-truck",
         permissionId: "ACQUASCANNERENTREE"
@@ -12,7 +12,7 @@ export const modes: ScanMode[] = [
     {
         key: "RCM",
         libelle: "Rectification -",
-        color: "#0091EA",
+        color: "#C51162",
         destination: "RectMinus",
         icon: "mdi-minus-circle",
         permissionId: "ACQUASCANNERRCP"
@@ -20,7 +20,7 @@ export const modes: ScanMode[] = [
     {
         key: "RCP",
         libelle: "Rectification +",
-        color: "#00BFA5",
+        color: "#AA00FF",
         destination: "RectPlus",
         icon: "mdi-plus-circle",
         permissionId: "ACQUASCANNERRCP"
@@ -28,7 +28,7 @@ export const modes: ScanMode[] = [
     {
         key: "INV",
         libelle: "Inventaire",
-        color: "#DD2C00",
+        color: "#0091EA",
         destination: "Inventaire",
         icon: "mdi-barcode-scan",
         permissionId: "ACQUASCANNERINV"
@@ -36,7 +36,7 @@ export const modes: ScanMode[] = [
     {
         key: "VEN",
         libelle: "Vente",
-        color: "#AA00FF",
+        color: "#00BFA5",
         destination: "Vente",
         icon: "mdi-cart",
         permissionId: "ACQUASCANNERVEN"
@@ -44,7 +44,7 @@ export const modes: ScanMode[] = [
     {
         key: "LIV",
         libelle: "Livraison",
-        color: "#C51162",
+        color: "#76B041",
         destination: "Livraison",
         icon: "mdi-dolly",
         permissionId: "ACQUASCANNERLIV"
@@ -52,19 +52,18 @@ export const modes: ScanMode[] = [
     {
         key: "COM",
         libelle: "Commande",
-        color: "#76B041",
+        color: "#FFAB00",
         destination: "Commande",
         icon: "mdi-arrow-up-bold-box-outline",
         permissionId: "Never"
     },
     {
         key: "FOU",
-        libelle: "ChoixFournisseur",
-        color: "#76B041",
+        libelle: "Choix Fournisseur",
+        color: "#FFAB00",
         destination: "ChoixFournisseur",
         icon: "mdi-arrow-up-bold-box-outline",
         permissionId: "Always"
-
     },
     {
         key: "ETI",
@@ -72,5 +71,5 @@ export const modes: ScanMode[] = [
         color: "#FF7043",
         destination: "Etiquettes",
         icon: "mdi-note-text",
-        permissionId: "Always"
+        permissionId: "Never"
     }];

@@ -32,7 +32,7 @@
       </v-toolbar-title>
       <v-spacer />
       <div
-        v-if="modeLibelle!='Commande' && modeLibelle!='Etiquettes' && modeLibelle!='ChoixFournisseur'"
+        v-if="modeLibelle!='Commande' && modeLibelle!='Etiquettes' && modeLibelle!='Choix Fournisseur'"
       >
         <v-btn
           icon
@@ -43,7 +43,7 @@
           <v-icon>mdi-file-document-box-check-outline</v-icon>
         </v-btn>
       </div>
-      <div v-else-if="modeLibelle =='ChoixFournisseur'">
+      <div v-else-if="modeLibelle =='Choix Fournisseur'">
         <v-btn icon @click="refreshFournisseurs()">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>

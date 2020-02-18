@@ -6,6 +6,7 @@ export interface FournisseurState {
     fournisseurName1: string;
     fournisseurName2: string;
     fournisseurName3: string;
+    fournisseurNumero: number;
   }
 
 

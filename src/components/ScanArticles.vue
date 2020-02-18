@@ -25,12 +25,12 @@
         <v-icon>mdi-check</v-icon>
       </v-btn>
     </v-text-field>
-    <!-- <v-alert
+    <v-alert
       :value="errorMessage != ''"
       class="mt-n5 mb-2"
       type="warning"
       border="left"
-    >{{ errorMessage }}</v-alert>-->
+    >{{ errorMessage }}</v-alert>
     <v-data-table
       :footer-props="{
 				'items-per-page-options': [10, 25, 50, -1],
@@ -58,7 +58,11 @@
     </v-data-table>
 
     <v-layout justify-center>
-      <ScanArticle :window.sync=articleDialog @actionPerform="closeArticleWindow" ref="ScanArticleWindow" />
+      <ScanArticle
+        :window.sync="articleDialog"
+        @actionPerform="closeArticleWindow"
+        ref="ScanArticleWindow"
+      />
       <v-dialog
         v-model="searchArticleDialog"
         eager
@@ -80,7 +84,7 @@
           <SearchArticles @elementClick="editArticleFromSearch" />
         </v-card>
       </v-dialog>
-       <v-dialog 
+      <v-dialog
         v-model="searchFournisseurDialog"
         eager
         fullscreen
@@ -89,11 +93,11 @@
       >
         <v-card>
           <v-toolbar dark color="primary">
-            <v-btn icon dark @click="searchFournisseurDialog = false">
-            </v-btn>
+            <v-btn icon dark @click="searchFournisseurDialog = false"></v-btn>
             <v-toolbar-title>Recherche de fournisseur</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn icon dark @click="refreshArticles()"> <!-- Changer la méthode -->
+            <v-btn icon dark @click="refreshArticles()">
+              <!-- Changer la méthode -->
               <v-icon>mdi-refresh</v-icon>
             </v-btn>
           </v-toolbar>
@@ -122,7 +126,7 @@ export default class ScanArticles extends Vue {
   private isReadonly: boolean = false;
   private loadingCode: boolean = false;
   private showError: boolean = false;
-  // private errorMessage: string = "";
+  private errorMessage: string = "";
   private headers = [
     { text: "EAN", value: "CodeEAN" },
     { text: "Libelle", value: "Libelle" },
@@ -135,6 +139,7 @@ export default class ScanArticles extends Vue {
   private refreshArticles: any;
 
   public mounted() {
+    window.scrollTo(0, 0);
     document.addEventListener("keydown", event => {
       if (!this.articleDialog && !this.searchArticleDialog) {
         this.$nextTick(() =>

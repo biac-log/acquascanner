@@ -41,9 +41,22 @@ export const mutations: MutationTree<FournisseurState> = {
       if (name.length > 2) state.fournisseurName3 = name[2];
     }
   },
-  clearFournisseurName(state){
+  setFournisseurNumero(state, numero:number){
+    state.fournisseurNumero = numero;
+  },
+  clearFournisseur(state){
     state.fournisseurName1 = "";
     state.fournisseurName2 = "";
     state.fournisseurName3 = "";
-  }
+    state.fournisseurNumero = 0;
+  },
+  clearAll(state) {
+    state.fournisseurName1 = '';
+    state.fournisseurName2 = '';
+    state.fournisseurName3 = '';
+    state.fournisseurNumero = 0;
+    state.loading = false;
+    state.fournisseurs = []
+    localStorage.removeItem("allFournisseurs");
+  },
 }

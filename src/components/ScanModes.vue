@@ -8,7 +8,7 @@
               <v-list-item-avatar>
                 <v-icon>{{i.icon}}</v-icon>
               </v-list-item-avatar>
-              <v-list-item-content v-if="i.libelle == 'ChoixFournisseur'">Commande</v-list-item-content>
+              <v-list-item-content v-if="i.libelle == 'Choix Fournisseur'">Commande</v-list-item-content>
               <v-list-item-content v-else>{{i.libelle}}</v-list-item-content>
               <v-list-item-action>
                 <v-icon>mdi-arrow-right</v-icon>

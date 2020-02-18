@@ -53,6 +53,7 @@ export default class SearchFournisseur extends Vue {
   private errorMessage!: string;
 
   private created() {
+    window.scrollTo(0,0);
     this.$store.commit("fournisseursModule/initAllFournisseurs");
   }
 
@@ -69,11 +70,9 @@ export default class SearchFournisseur extends Vue {
     name.push(fournisseur.nom2);
     name.push(fournisseur.nom3);
     this.$store.commit("fournisseursModule/setFournisseurName", name);
+    this.$store.commit("fournisseursModule/setFournisseurNumero", fournisseur.numero);
     this.$router.push("/Commande");
   }
-  // private fournisseurs = refreshFournisseur();
-
-  // ]
 }
 </script>
 

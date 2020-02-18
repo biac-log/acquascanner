@@ -8,6 +8,4 @@ export interface ArticlesState {
   displaySuccessMessage: boolean;
   successMessage: string;
   loadingSendArticleScan: boolean;
-  fournisseurExist : false;
-  fournisseurName :string;
 }

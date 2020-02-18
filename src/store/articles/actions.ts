@@ -64,6 +64,7 @@ export const actions: ActionTree<ArticlesState, RootState> = {
   },
   clearAll({ commit }): any {
     commit('clearAll');
+    commit('fournisseursModule/clearAll');
   },
   initAllArticlesFromLocalStorage({ commit }): any {
     commit('initAllArticlesFromLocalStorage');
@@ -73,11 +74,11 @@ export const actions: ActionTree<ArticlesState, RootState> = {
   },
   sendArticlesCommande({ commit, getters, rootState, rootGetters }): any {
     commit('setLoadingSendArticleScan', true);
-    const name =`${rootGetters['fournisseursModule/getFournisseurName']}`;
-    axios.post(process.env.VUE_APP_ApiArticle  + '/Fournisseurs/' + name + '/FichierCommande', getters.articlesScan)
+    const numero =`${rootGetters['fournisseursModule/getFournisseurNumero']}`;
+    axios.post(`${process.env.VUE_APP_ApiArticle}/Fournisseurs/${numero}/FichierCommande`, getters.articlesScan)
     .then((r) => {
       commit('resetArticlesScan');
-      commit('fournisseursModule/clearFournisseurName', null, {root : true});
+      commit('fournisseursModule/clearFournisseur', null, {root : true});
       commit('setErrorMessage', '');
       commit('setSuccessMessage', "L'envoi du bon de commande des articles scannés s'est effectué avec succès.");
       router.push("/")

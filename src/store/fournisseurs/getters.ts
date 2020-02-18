@@ -17,5 +17,8 @@ export const getters: GetterTree<FournisseurState, RootState> = {
     },
     getFournisseurName(state){
         return state.fournisseurName1;
-    }
+    },
+    getFournisseurNumero(state){
+        return state.fournisseurNumero;
+    },
 }

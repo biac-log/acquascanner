@@ -12,6 +12,7 @@ export const state: FournisseurState = {
     fournisseurName1: "",
     fournisseurName2: "",
     fournisseurName3: "",
+    fournisseurNumero: 0,
 };
 
 const namespaced: boolean = true;
