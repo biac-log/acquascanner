@@ -64,7 +64,6 @@ export const actions: ActionTree<ArticlesState, RootState> = {
   },
   clearAll({ commit }): any {
     commit('clearAll');
-    commit('fournisseursModule/clearAll');
   },
   initAllArticlesFromLocalStorage({ commit }): any {
     commit('initAllArticlesFromLocalStorage');
@@ -89,9 +88,10 @@ export const actions: ActionTree<ArticlesState, RootState> = {
       commit('setLoadingSendArticleScan', false)
     });
   },
-    PrintEtiquettes(context): any {
+    PrintEtiquettes(context, article: Article): any {
     context.commit('setLoadingSendArticleScan', true);
-    axios.post(process.env.VUE_APP_ApiArticle  + '/Etiquettes', context.state.articlesScan)
+    article.Quantite = 1;
+    axios.post(`${process.env.VUE_APP_ApiArticle}/Etiquettes/print`, article)
     .then((r) => {
       context.commit('resetArticlesScan');
       context.commit('setErrorMessage', '');

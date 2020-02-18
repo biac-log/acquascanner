@@ -29,5 +29,9 @@ export const actions: ActionTree<FournisseurState, RootState> = {
     initAllFournisseurs({ commit }): any {
         commit('initAllFournisseurs');
   },
+  clearAll({ commit }): any {
+    commit('clearCurrentFournisseur');
+    commit('clearFournisseurs');
+  },
 }
 

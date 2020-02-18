@@ -194,6 +194,8 @@ export default class App extends Vue {
     window.scrollTo(0, 0);
     this.$store.dispatch("articles/initialiseArticleScan");
     this.$store.dispatch("articles/initAllArticlesFromLocalStorage");
+    this.$store.dispatch("fournisseursModule/initAllFournisseurs");
+    
     if (localStorage.getItem("articles")) this.$router.push(this.modeLastPage);
     this.$store.commit("modeModule/changeCurrentMode", this.$route.name);
 

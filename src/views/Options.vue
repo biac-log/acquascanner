@@ -41,7 +41,10 @@ import axios from 'axios';
 @Component({})
 export default class Options extends Vue {
   @Action('clearAll', { namespace: 'articles' })
-  private clearAll: any;
+  private clearArticles: any;
+  @Action('fournisseursModule/clearAll')
+  private clearFournisseur: any;
+
   @Action('refreshArticles', { namespace: 'articles' })
   private refreshArticles: any;
   @Action("fournisseursModule/refreshFournisseurs")
@@ -73,7 +76,8 @@ export default class Options extends Vue {
         'Voulez-vous réinitialiser l\'application ? toutes les données seront perdues.',
       )
     ) {
-      this.clearAll();
+      this.clearArticles();
+      this.clearFournisseur();
     }
   }
 

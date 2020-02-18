@@ -158,6 +158,8 @@ export default class ScanArticle extends Vue {
   @Action("removeArticleScan", { namespace: "articles" })
   private removeArticleScan: any;
 
+  private selectedArticle!: Article;
+
   public focusQuantite() {
     if (this.isEdit) {
       this.$nextTick(() => (this.$refs.quantiteAddElement as any).focus());
@@ -167,6 +169,7 @@ export default class ScanArticle extends Vue {
   }
 
   public editArticle(article: Article) {
+    this.selectedArticle = article;
     if (article) {
       this.code = article.Code;
       this.codeEAN = article.CodeEAN;
@@ -207,22 +210,7 @@ export default class ScanArticle extends Vue {
   }
 
   private printEtiquettes() {
-    let articles: Article[] = [this.GetArticle()];
-    axios
-      .post(process.env.VUE_APP_ApiArticle + "/Etiquettes", articles)
-      .then(r => {
-        this.$store.commit(
-          "articles/setSuccessMessage",
-          "La demande d'impression a été effectuée avec succès."
-        );
-      })
-      .catch(e => {
-        this.$store.commit(
-          "articles/setErrorMessage",
-          "Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? " +
-            e.message
-        );
-      });
+    this.$store.dispatch('articles/PrintEtiquettes', this.selectedArticle)
   }
 
   private GetArticle(): Article {

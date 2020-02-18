@@ -44,17 +44,13 @@ export const mutations: MutationTree<FournisseurState> = {
   setFournisseurNumero(state, numero:number){
     state.fournisseurNumero = numero;
   },
-  clearFournisseur(state){
+  clearCurrentFournisseur(state){
     state.fournisseurName1 = "";
     state.fournisseurName2 = "";
     state.fournisseurName3 = "";
     state.fournisseurNumero = 0;
   },
-  clearAll(state) {
-    state.fournisseurName1 = '';
-    state.fournisseurName2 = '';
-    state.fournisseurName3 = '';
-    state.fournisseurNumero = 0;
+  clearFournisseurs(state) {
     state.loading = false;
     state.fournisseurs = []
     localStorage.removeItem("allFournisseurs");
