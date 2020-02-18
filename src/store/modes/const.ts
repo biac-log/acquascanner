@@ -2,20 +2,20 @@ import { ScanMode } from "../../data/ScanMode";
 
 export const modes: ScanMode[] = [
     {
-        key: "INV",
-        libelle: "Inventaire",
-        color: "#DD2C00",
-        destination: "Inventaire",
-        icon: "mdi-barcode-scan",
-        permissionId: "ACQUASCANNERINV"
-    },
-    {
         key: "ENT",
         libelle: "Entrée",
         color: "#FFAB00",
         destination: "Entree",
         icon: "mdi-truck",
         permissionId: "ACQUASCANNERENTREE"
+    },
+    {
+        key: "RCM",
+        libelle: "Rectification -",
+        color: "#0091EA",
+        destination: "RectMinus",
+        icon: "mdi-minus-circle",
+        permissionId: "ACQUASCANNERRCP"
     },
     {
         key: "RCP",
@@ -26,12 +26,12 @@ export const modes: ScanMode[] = [
         permissionId: "ACQUASCANNERRCP"
     },
     {
-        key: "RCM",
-        libelle: "Rectification -",
-        color: "#0091EA",
-        destination: "RectMinus",
-        icon: "mdi-minus-circle",
-        permissionId: "ACQUASCANNERRCP"
+        key: "INV",
+        libelle: "Inventaire",
+        color: "#DD2C00",
+        destination: "Inventaire",
+        icon: "mdi-barcode-scan",
+        permissionId: "ACQUASCANNERINV"
     },
     {
         key: "VEN",
@@ -63,7 +63,7 @@ export const modes: ScanMode[] = [
         color: "#76B041",
         destination: "ChoixFournisseur",
         icon: "mdi-arrow-up-bold-box-outline",
-        permissionId : "Always"
+        permissionId: "Always"
 
     },
     {

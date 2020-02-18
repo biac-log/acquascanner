@@ -10,7 +10,7 @@ export const actions: ActionTree<FournisseurState, RootState> = {
   refreshFournisseurs({ commit }) {
     commit('setLoading', true);
     let fournisseurs: Compte[] = [];
-    axios.post<Compte[]>(`${process.env.VUE_APP_ApiAcQua}/Comptes/GetComptes/?compteBloquer=false&typeAcces=PSQL_BTrieve`, ["Fournisseur"])
+    axios.post<Compte[]>(`${process.env.VUE_APP_ApiAcQua}/Comptes/GetComptes?compteBloquer=false&typeAcces=PSQL_BTrieve`, ["Fournisseur"])
       .then((response) => {
         const jsonConvert: JsonConvert = new JsonConvert();
         jsonConvert.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;

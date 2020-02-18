@@ -71,22 +71,24 @@ export const actions: ActionTree<ArticlesState, RootState> = {
   displaySuccessMessage({ commit }, value: boolean) {
     commit('displaySuccessMessage', value);
   },
-  sendArticlesCommande(context, args: any): any {
-    context.commit('setLoadingSendArticleScan', true);
-    axios.post(process.env.VUE_APP_ApiArticle  + '/Fournisseurs/12/FichierCommande', context.state.articlesScan)
+  sendArticlesCommande({ commit, getters, rootState, rootGetters }): any {
+    commit('setLoadingSendArticleScan', true);
+    const name =`${rootGetters['fournisseursModule/getFournisseurName']}`;
+    axios.post(process.env.VUE_APP_ApiArticle  + '/Fournisseurs/' + name + '/FichierCommande', getters.articlesScan)
     .then((r) => {
-      context.commit('resetArticlesScan');
-      context.commit('setErrorMessage', '');
-      context.commit('setSuccessMessage', "L'envoi du bon de commande des articles scannés s'est effectué avec succès.");
+      commit('resetArticlesScan');
+      commit('fournisseursModule/clearFournisseurName', null, {root : true});
+      commit('setErrorMessage', '');
+      commit('setSuccessMessage', "L'envoi du bon de commande des articles scannés s'est effectué avec succès.");
       router.push("/")
     })
     .catch((e) => {
-      context.commit('setErrorMessage', 'Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? ' + e.message);
+      commit('setErrorMessage', 'Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? ' + e.message);
     }).finally(() => {
-      context.commit('setLoadingSendArticleScan', false)
+      commit('setLoadingSendArticleScan', false)
     });
   },
-  PrintEtiquettes(context): any {
+    PrintEtiquettes(context): any {
     context.commit('setLoadingSendArticleScan', true);
     axios.post(process.env.VUE_APP_ApiArticle  + '/Etiquettes', context.state.articlesScan)
     .then((r) => {

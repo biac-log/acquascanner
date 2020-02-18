@@ -12,7 +12,10 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-toolbar-title>Article</v-toolbar-title>
-        <v-spacer></v-spacer>
+        <v-spacer />
+        <v-btn icon @click="printEtiquettes">
+          <v-icon color="white">mdi-printer-wireless</v-icon>
+        </v-btn>
       </v-toolbar>
       <v-form ref="form" v-model="valid">
         <v-container>
@@ -108,17 +111,6 @@
                   <v-icon>mdi-delete-outline</v-icon>
                 </v-btn>
               </span>
-
-              <!-- <span class="align-self-center mx-2">
-            <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn color="#FF7043" @click="printEtiquettes" v-on="on">
-                  <v-icon color="white">mdi-printer-wireless</v-icon>
-                </v-btn>
-              </template>
-              <span>Imprimer étiquettes</span>
-            </v-tooltip>
-              </span>-->
             </v-col>
           </v-row>
         </v-container>
@@ -198,6 +190,7 @@ export default class ScanArticle extends Vue {
 
       if (this.quantiteAdd || this.quantiteAdd !== "") {
         article.Quantite += Number.parseFloat(this.quantiteAdd);
+        if(article.Quantite < 0) article.Quantite = 0;
       }
       this.addArticleScan(article);
       this.clearData();

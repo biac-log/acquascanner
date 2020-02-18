@@ -20,6 +20,8 @@ const ifNotAuthenticated: NavigationGuard = (to, from, next) => {
 
 const ifAuthenticated: NavigationGuard = (to, from, next) => {
   if (store.getters["authentificationModule/isAuthenticated"]()) {
+    if (to.name == "ChoixFournisseur" && store.getters["fournisseursModule/getFournisseurName"] != "")
+      next('/Commande');
     next();
     return;
   }
@@ -31,13 +33,13 @@ const haveAuthorization: NavigationGuard = (to, from, next) => {
     next('/login');
     return;
   }
-    var modeDest = modes.find(m => m.destination === to.name);
-    var droits = store.getters["UserModule/getDroits"];
-    if (modeDest && droits && droits.includes(modeDest.permissionId)) {
-      next();
-      return;
-    }
-    next('/');
+  var modeDest = modes.find(m => m.destination === to.name);
+  var droits = store.getters["UserModule/getDroits"];
+  if (modeDest && droits && droits.includes(modeDest.permissionId)) {
+    next();
+    return;
+  }
+  next('/');
 }
 
 export default new Router({

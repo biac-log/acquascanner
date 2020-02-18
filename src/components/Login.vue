@@ -32,7 +32,7 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" @click="login">Se connecter</v-btn>
+                <v-btn color="primary" :loading="loading" @click="login">Se connecter</v-btn>
               </v-card-actions>
 
               <v-card-text v-if="errorMessage != ''">
