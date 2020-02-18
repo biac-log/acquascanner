@@ -58,24 +58,7 @@
     </v-data-table>
 
     <v-layout justify-center>
-      <v-dialog
-        v-model="articleDialog"
-        eager
-        fullscreen
-        hide-overlay
-        transition="dialog-bottom-transition"
-      >
-        <v-card>
-          <v-toolbar dark color="primary">
-            <v-btn icon dark @click="articleDialog = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title>Article</v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-          <ScanArticle @actionPerform="closeArticleWindow" ref="ScanArticleWindow" />
-        </v-card>
-      </v-dialog>
+      <ScanArticle :window.sync=articleDialog @actionPerform="closeArticleWindow" ref="ScanArticleWindow" />
       <v-dialog
         v-model="searchArticleDialog"
         eager
@@ -228,7 +211,7 @@ export default class ScanArticles extends Vue {
   }
 
   private editArticleFromSearch(article: Article) {
-    this.closeSearchArticleDialog;
+    this.closeSearchArticleDialog();
     const art: Article = this.$store.getters["articles/getArticleScanByCode"](
       article.CodeEAN
     );

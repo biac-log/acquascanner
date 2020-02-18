@@ -55,7 +55,7 @@ export const modes: ScanMode[] = [
         color: "#76B041",
         destination: "Commande",
         icon: "mdi-arrow-up-bold-box-outline",
-        permissionId: ""
+        permissionId: "Never"
     },
     {
         key: "FOU",
@@ -63,6 +63,7 @@ export const modes: ScanMode[] = [
         color: "#76B041",
         destination: "ChoixFournisseur",
         icon: "mdi-arrow-up-bold-box-outline",
+        permissionId : "Always"
 
     },
     {
@@ -71,5 +72,5 @@ export const modes: ScanMode[] = [
         color: "#FF7043",
         destination: "Etiquettes",
         icon: "mdi-note-text",
-        permissionId: ""
+        permissionId: "Always"
     }];

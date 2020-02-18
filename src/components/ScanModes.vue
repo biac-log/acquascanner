@@ -8,7 +8,8 @@
               <v-list-item-avatar>
                 <v-icon>{{i.icon}}</v-icon>
               </v-list-item-avatar>
-              <v-list-item-content>{{i.libelle}}</v-list-item-content>
+              <v-list-item-content v-if="i.libelle == 'ChoixFournisseur'">Commande</v-list-item-content>
+              <v-list-item-content v-else>{{i.libelle}}</v-list-item-content>
               <v-list-item-action>
                 <v-icon>mdi-arrow-right</v-icon>
               </v-list-item-action>
@@ -62,11 +63,15 @@ export default class ScanModes extends Vue {
   @Getter("UserModule/getDroits")
   private droits!: string[];
 
+  private created(){
+    window.scrollTo(0, 0);
+  }
+
   private getModesAuthorized(): ScanMode[] {
     var result: ScanMode[] = [];
     modes.forEach(e => {
       if (
-        e.permissionId === "" ||
+        e.permissionId === "Always" ||
         (this.droits !== null && this.droits.includes(e.permissionId))
       )
         result.push(e);

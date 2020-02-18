@@ -5,6 +5,7 @@ import { articles } from './articles/index';
 import { authentificationModule } from './authentification/index';
 import { modeModule } from './modes/index';
 import {fournisseursModule} from './fournisseurs/index'
+import {UserModule} from './user/index'
 
 
 Vue.use(Vuex);
@@ -19,6 +20,7 @@ const store: StoreOptions<RootState> = {
     articles,
     authentificationModule,
     modeModule,
+    UserModule,
     fournisseursModule,
   },
 };

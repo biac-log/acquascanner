@@ -1,99 +1,115 @@
 <template>
-  <v-form ref="form" v-model="valid">
-    <v-container>
-      <v-row no-gutters>
-        <v-col cols="5">
-          <v-text-field
-            label="Code"
-            v-model="code"
-            :rules="codeRules"
-            @keypress.enter.prevent="addArticle"
-            readonly
-            dense
-            class="mr-5"
-            hide-details
-          />
-        </v-col>
-        <v-col cols="7">
-          <v-text-field
-            label="CodeEAN"
-            v-model="codeEAN"
-            @keypress.enter.prevent="addArticle"
-            readonly
-            dense
-            hide-details
-          />
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <v-col cols="12">
-          <v-textarea
-            label="Nom"
-            v-model="nom"
-            :rules="nameRules"
-            @keypress.enter.prevent="addArticle"
-            readonly
-            auto-grow
-            rows="1"
-            dense
-            hide-details
-          />
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <v-col cols="12">
-          <v-textarea
-            label="Reference Fournisseur"
-            v-model="ReferenceFournisseur"
-            @keypress.enter.prevent="addArticle"
-            readonly
-            auto-grow
-            rows="1"
-            dense
-            hide-details
-          />
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <v-col>
-          <v-text-field
-            label="Quantité"
-            class="mr-2"
-            v-model="quantite"
-            :rules="quantiteRules"
-            ref="quantiteElement"
-            type="number"
-            dense
-            @focus="$event.target.select()"
-            @keypress.enter.prevent="addArticle"
-          />
-        </v-col>
-        <v-col cols="3" v-if="isEdit">
-          <v-text-field
-            label="À ajouter"
-            v-model="quantiteAdd"
-            :rules="quantiteAddRules"
-            ref="quantiteAddElement"
-            type="number"
-            dense
-            @focus="$event.target.select()"
-            @keypress.enter.prevent="addArticle"
-          />
-        </v-col>
-        <v-col cols="auto" class="d-flex">
-          <span class="align-self-center mx-2">
-            <v-btn color="success" @click="addArticle" :disabled="!valid">
-              <v-icon>mdi-check</v-icon>
-              <!-- <div v-if="!isEdit">Valider</div> -->
-            </v-btn>
-          </span>
-          <span class="align-self-center">
-            <v-btn color="error" @click="deleteArticle">
-              <v-icon>mdi-delete-outline</v-icon>
-            </v-btn>
-          </span>
+  <v-dialog
+    v-model="showDialog"
+    eager
+    fullscreen
+    hide-overlay
+    transition="dialog-bottom-transition"
+  >
+    <v-card>
+      <v-toolbar dark color="primary">
+        <v-btn icon dark @click="showDialog = false">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <v-toolbar-title>Article</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+      <v-form ref="form" v-model="valid">
+        <v-container>
+          <v-row dense>
+            <v-col cols="5">
+              <v-text-field
+                label="Code"
+                v-model="code"
+                :rules="codeRules"
+                @keypress.enter.prevent="addArticle"
+                readonly
+                dense
+                class="mr-5"
+                hide-details
+              />
+            </v-col>
+            <v-col cols="7">
+              <v-text-field
+                label="CodeEAN"
+                v-model="codeEAN"
+                @keypress.enter.prevent="addArticle"
+                readonly
+                dense
+                hide-details
+              />
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col cols="12">
+              <v-textarea
+                label="Nom"
+                v-model="nom"
+                :rules="nameRules"
+                @keypress.enter.prevent="addArticle"
+                readonly
+                auto-grow
+                rows="1"
+                dense
+                class="mt-3"
+                hide-details
+              />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
+              <v-textarea
+                label="Reference Fournisseur"
+                v-model="ReferenceFournisseur"
+                @keypress.enter.prevent="addArticle"
+                readonly
+                auto-grow
+                rows="1"
+                dense
+                hide-details
+              />
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col>
+              <v-text-field
+                label="Quantité"
+                class="mr-2"
+                v-model="quantite"
+                :rules="quantiteRules"
+                ref="quantiteElement"
+                type="number"
+                dense
+                @focus="$event.target.select()"
+                @keypress.enter.prevent="addArticle"
+              />
+            </v-col>
+            <v-col cols="3" v-if="isEdit">
+              <v-text-field
+                label="À ajouter"
+                v-model="quantiteAdd"
+                :rules="quantiteAddRules"
+                ref="quantiteAddElement"
+                type="number"
+                dense
+                @focus="$event.target.select()"
+                @keypress.enter.prevent="addArticle"
+              />
+            </v-col>
+            <v-col cols="auto" class="d-flex">
+              <span class="align-self-top mx-2">
+                <v-btn color="success" @click="addArticle" :disabled="!valid">
+                  <v-icon>mdi-check</v-icon>
+                  <div v-if="!isEdit">Valider</div>
+                </v-btn>
+              </span>
+              <span class="align-self-top">
+                <v-btn color="error" @click="deleteArticle">
+                  <v-icon>mdi-delete-outline</v-icon>
+                </v-btn>
+              </span>
 
-          <span class="align-self-center mx-2">
+              <!-- <span class="align-self-center mx-2">
             <v-tooltip top>
               <template v-slot:activator="{ on }">
                 <v-btn color="#FF7043" @click="printEtiquettes" v-on="on">
@@ -102,21 +118,25 @@
               </template>
               <span>Imprimer étiquettes</span>
             </v-tooltip>
-          </span>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-form>
+              </span>-->
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts">
 import { State, Action, Getter } from "vuex-class";
-import { Component, Vue, Emit } from "vue-property-decorator";
+import { Component, Vue, Emit, PropSync, Prop } from "vue-property-decorator";
 import { Article } from "../data/Article";
 import axios from "axios";
 
 @Component({})
 export default class ScanArticle extends Vue {
+  @PropSync("window")
+  public showDialog!: boolean;
   public valid: boolean = false;
   public code: string = "";
   public codeRules = [(v: any) => !!v || "Le code est obligatoire"];
