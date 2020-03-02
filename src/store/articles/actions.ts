@@ -36,7 +36,7 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     })
   },
 
-  initialiseArticleScan({commit}) {
+  initialiseArticleScan({ commit }) {
     commit('initialiseArticleScan');
   },
   addArticleScan(context, article: Article) {
@@ -47,10 +47,11 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     context.commit('removeArticleScan', article);
     context.commit('saveArticleScan');
   },
-  sendArticlesScan(context, {userSession, routeController}): any {
+  sendArticlesScan(context, { userSession, routeController }): any {
     context.commit('setLoadingSendArticleScan', true);
-    var url: string =  process.env.VUE_APP_ApiStock + '/Stock/' + routeController + '?user=' + userSession;
-    axios.post(url, context.state.articlesScan)
+    const header = `Bearer ${context.rootGetters['authentificationModule/getToken']}`;
+    var url: string = process.env.VUE_APP_ApiStock + '/Stock/' + routeController + '?user=' + userSession;
+    axios.post(url, context.state.articlesScan, { headers: { Authorization: header } })
       .then((r) => {
         context.commit('resetArticlesScan');
         context.commit('setErrorMessage', '');
@@ -73,35 +74,35 @@ export const actions: ActionTree<ArticlesState, RootState> = {
   },
   sendArticlesCommande({ commit, getters, rootState, rootGetters }): any {
     commit('setLoadingSendArticleScan', true);
-    const numero =`${rootGetters['fournisseursModule/getFournisseurNumero']}`;
+    const numero = `${rootGetters['fournisseursModule/getFournisseurNumero']}`;
     axios.post(`${process.env.VUE_APP_ApiArticle}/Fournisseurs/${numero}/FichierCommande`, getters.articlesScan)
-    .then((r) => {
-      commit('resetArticlesScan');
-      commit('fournisseursModule/clearFournisseur', null, {root : true});
-      commit('setErrorMessage', '');
-      commit('setSuccessMessage', "L'envoi du bon de commande des articles scannés s'est effectué avec succès.");
-      router.push("/")
-    })
-    .catch((e) => {
-      commit('setErrorMessage', 'Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? ' + e.message);
-    }).finally(() => {
-      commit('setLoadingSendArticleScan', false)
-    });
+      .then((r) => {
+        commit('resetArticlesScan');
+        commit('fournisseursModule/clearFournisseur', null, { root: true });
+        commit('setErrorMessage', '');
+        commit('setSuccessMessage', "L'envoi du bon de commande des articles scannés s'est effectué avec succès.");
+        router.push("/")
+      })
+      .catch((e) => {
+        commit('setErrorMessage', 'Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? ' + e.message);
+      }).finally(() => {
+        commit('setLoadingSendArticleScan', false)
+      });
   },
-    PrintEtiquettes(context, article: Article): any {
+  PrintEtiquettes(context, article: Article): any {
     context.commit('setLoadingSendArticleScan', true);
     article.Quantite = 1;
     axios.post(`${process.env.VUE_APP_ApiArticle}/Etiquettes/print`, article)
-    .then((r) => {
-      context.commit('resetArticlesScan');
-      context.commit('setErrorMessage', '');
-      context.commit('setSuccessMessage', "La demande d'impression a été effectuée avec succès.");
-      router.push("/")
-    })
-    .catch((e) => {
-      context.commit('setErrorMessage', 'Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? ' + e.message);
-    }).finally(() => {
-      context.commit('setLoadingSendArticleScan', false)
-    });
+      .then((r) => {
+        context.commit('resetArticlesScan');
+        context.commit('setErrorMessage', '');
+        context.commit('setSuccessMessage', "La demande d'impression a été effectuée avec succès.");
+        router.push("/")
+      })
+      .catch((e) => {
+        context.commit('setErrorMessage', 'Erreur lors de la communication avec le serveur. Êtes-vous bien connecté au réseau ? ' + e.message);
+      }).finally(() => {
+        context.commit('setLoadingSendArticleScan', false)
+      });
   }
 };
