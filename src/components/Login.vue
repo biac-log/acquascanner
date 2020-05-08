@@ -13,7 +13,7 @@
                 <v-form>
                   <v-text-field
                     label="Utilisateur"
-                    name="login"
+                    name="premierChamp"
                     prepend-icon="mdi-account"
                     type="text"
                     v-model="username"
@@ -22,7 +22,7 @@
                   <v-text-field
                     id="password"
                     label="Mot de passe"
-                    name="password"
+                    name="secondChamp"
                     prepend-icon="mdi-lock"
                     type="password"
                     v-model="password"
