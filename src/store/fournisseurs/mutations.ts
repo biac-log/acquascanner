@@ -7,7 +7,7 @@ export const mutations: MutationTree<FournisseurState> = {
     state.fournisseurs = fournisseurs;
     let strings: string = '';
     fournisseurs.forEach(function (compte) {
-      strings += `${compte.nom1}#${compte.nom2}#${compte.nom3}#${compte.numero.toString()}§`;
+      strings += `${compte.nom}#${compte.nom2}#${compte.nom3}#${compte.numero.toString()}§`;
     });
 
     localStorage.setItem("allFournisseurs", strings);
@@ -21,7 +21,7 @@ export const mutations: MutationTree<FournisseurState> = {
         if (row != "") {
           const element = row.split('#');
           const fourn: Compte = new Compte();
-          fourn.nom1 = element[0];
+          fourn.nom = element[0];
           fourn.nom2 = element[1];
           fourn.nom3 = element[2];
           fourn.numero = Number(element[3]);

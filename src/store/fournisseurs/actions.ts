@@ -10,7 +10,7 @@ export const actions: ActionTree<FournisseurState, RootState> = {
   refreshFournisseurs({ commit }) {
     commit('setLoading', true);
     let fournisseurs: Compte[] = [];
-    axios.post<Compte[]>(`${process.env.VUE_APP_ApiAcQua}/Comptes/GetComptes?compteBloquer=false&typeAcces=PSQL_BTrieve`, ["Fournisseur"])
+    axios.get<Compte[]>(`${process.env.VUE_APP_ApiArticle}/Fournisseurs/AllForAcQuaScanner`)
       .then((response) => {
         const jsonConvert: JsonConvert = new JsonConvert();
         jsonConvert.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;
@@ -18,7 +18,7 @@ export const actions: ActionTree<FournisseurState, RootState> = {
         commit('articles/setErrorMessage', '', {root:true});
       })
       .catch((e) => {
-        commit('articles/setErrorMessage', e.message + ' ' + process.env.VUE_APP_ApiAcQuaUrl, {root:true});
+        commit('articles/setErrorMessage', e.message + ' ' + process.env.VUE_APP_ApiArticle, {root:true});
       }).finally(() => {
         if (fournisseurs) {
           commit('refreshFournisseurs', fournisseurs);

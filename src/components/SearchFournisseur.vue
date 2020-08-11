@@ -60,13 +60,13 @@ export default class SearchFournisseur extends Vue {
   private search: string = "";
   private headers = [
     { text: "Numero", value: "numero" },
-    { text: "Nom", value: "nom1" }
+    { text: "Nom", value: "nom" }
   ];
 
   @Emit("elementClick")
   private selectFournisseur(fournisseur: Compte) {
     let name: string[] = [];
-    name.push(fournisseur.nom1);
+    name.push(fournisseur.nom);
     name.push(fournisseur.nom2);
     name.push(fournisseur.nom3);
     this.$store.commit("fournisseursModule/setFournisseurName", name);

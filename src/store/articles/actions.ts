@@ -19,7 +19,7 @@ export const actions: ActionTree<ArticlesState, RootState> = {
         commit('setErrorMessage', '');
       })
       .catch((e) => {
-        commit('setErrorMessage', e.message + ' ' + process.env.VUE_APP_ApiAcQuaUrl);
+        commit('setErrorMessage', e.message + ' ' + process.env.VUE_APP_ApiArticle);
       }).finally(() => {
         if (articles) {
           commit('refreshArticles', articles);
