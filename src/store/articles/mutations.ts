@@ -20,7 +20,7 @@ export const mutations: MutationTree<ArticlesState> = {
     state.articles = articles;
     let strings: string = '';
     articles.forEach(function (article) {
-      strings += article.Code + '#' + article.CodeEAN + '#' + article.Libelle + '#' + article.ReferenceFournisseur + '§';
+      strings += article.Code + '#' + article.CodeEAN + '#' + article.Libelle + '#' + article.ReferenceFournisseur + '#' + article.NumeroFournisseur + '§';
     });
 
     localStorage.setItem("AllArticles", strings);
@@ -78,6 +78,7 @@ export const mutations: MutationTree<ArticlesState> = {
         art.CodeEAN = element[1];
         art.Libelle = element[2];
         art.ReferenceFournisseur = element[3];
+        art.NumeroFournisseur = +element[4];
         articles.push(art);
       });
     }
@@ -87,7 +88,8 @@ export const mutations: MutationTree<ArticlesState> = {
     state.displaySuccessMessage = value;
   },
   setDisplayArticles(state, numeroFournisseur: number) {
-      if (router.currentRoute.name == 'Commande' && state.articles != null && numeroFournisseur != 0) state.displayArticles = state.articles.filter(a => a.NumeroFournisseur == numeroFournisseur);
+      if (router.currentRoute.name == 'Commande' && state.articles != null && numeroFournisseur != 0)
+        state.displayArticles = state.articles.filter(a => a.NumeroFournisseur == numeroFournisseur);
       else
         state.displayArticles = state.articles;
   }
