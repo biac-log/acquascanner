@@ -10,8 +10,8 @@
         <span class="font-weight-light">Scanner</span>
       </v-toolbar-title>
       <v-spacer />
-      <v-btn icon to="/options">
-        <v-icon>mdi-settings</v-icon>
+      <v-btn icon >
+        <v-icon>mdi-cog</v-icon>
       </v-btn>
     </v-app-bar>
     <v-app-bar app v-else-if="modeIsDefined" :color="modeColor" dark>
@@ -40,7 +40,7 @@
           :disabled="articlesScan.length === 0"
           :loading="loadingSendArticleScan"
         >
-          <v-icon>mdi-file-document-box-check-outline</v-icon>
+          <v-icon>mdi-text-box-check-outline</v-icon>
         </v-btn>
       </div>
       <div v-else-if="modeLibelle =='Choix Fournisseur'">
@@ -225,6 +225,6 @@ a {
   text-decoration: inherit; /* no underline */
 }
 .router-link-white {
-  color: white !important; /* blue colors for links too */
+  color: white !important; /* white colors for links too */
 }
 </style>
