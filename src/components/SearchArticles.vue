@@ -45,7 +45,7 @@ import { Article } from "../data/Article";
 
 @Component({})
 export default class SearchArticles extends Vue {
-  @Getter("articles", { namespace: "articles" })
+  @Getter("displayArticles", { namespace: "articles" })
   private articles!: Article[];
   @Getter("loading", { namespace: "articles" })
   private loading!: boolean;

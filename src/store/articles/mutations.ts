@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 import { ArticlesState } from './types';
 import { Article } from '../../data/Article';
-
+import router from '@/router';
 export const mutations: MutationTree<ArticlesState> = {
   setLoading(state, isLoading: boolean) {
     state.loading = isLoading;
@@ -19,7 +19,7 @@ export const mutations: MutationTree<ArticlesState> = {
   refreshArticles(state, articles: Article[]) {
     state.articles = articles;
     let strings: string = '';
-    articles.forEach(function(article) {
+    articles.forEach(function (article) {
       strings += article.Code + '#' + article.CodeEAN + '#' + article.Libelle + '#' + article.ReferenceFournisseur + '§';
     });
 
@@ -71,7 +71,7 @@ export const mutations: MutationTree<ArticlesState> = {
     const articles: Article[] = [];
     if (allArticlesFromLocal) {
       const rows = allArticlesFromLocal.split('§');
-      rows.forEach(function(row) {
+      rows.forEach(function (row) {
         const element = row.split('#');
         const art: Article = new Article();
         art.Code = element[0];
@@ -86,4 +86,9 @@ export const mutations: MutationTree<ArticlesState> = {
   displaySuccessMessage(state, value: boolean) {
     state.displaySuccessMessage = value;
   },
+  setDisplayArticles(state, numeroFournisseur: number) {
+      if (router.currentRoute.name == 'Commande' && state.articles != null && numeroFournisseur != 0) state.displayArticles = state.articles.filter(a => a.NumeroFournisseur == numeroFournisseur);
+      else
+        state.displayArticles = state.articles;
+  }
 };

@@ -8,7 +8,7 @@ import router from '@/router';
 
 
 export const actions: ActionTree<ArticlesState, RootState> = {
-  refreshArticles({ commit }) {
+  refreshArticles({ commit, rootGetters }) {
     commit('setLoading', true);
     let articles: Article[] | null = null;
     axios.get<Article[]>(process.env.VUE_APP_ApiArticle + "/Article/GetAllArticle")
@@ -23,6 +23,7 @@ export const actions: ActionTree<ArticlesState, RootState> = {
       }).finally(() => {
         if (articles) {
           commit('refreshArticles', articles);
+          commit('setDisplayArticles', rootGetters['fournisseursModule/getFournisseurNumero']);
         }
         commit('setLoading', false);
       });
@@ -78,7 +79,7 @@ export const actions: ActionTree<ArticlesState, RootState> = {
     axios.post(`${process.env.VUE_APP_ApiArticle}/Fournisseurs/${numero}/FichierCommande`, getters.articlesScan)
       .then((r) => {
         commit('resetArticlesScan');
-        commit('fournisseursModule/clearFournisseur', null, { root: true });
+        commit('fournisseursModule/clearCurrentFournisseur', null, { root: true });
         commit('setErrorMessage', '');
         commit('setSuccessMessage', "L'envoi du bon de commande des articles scannés s'est effectué avec succès.");
         router.push("/")

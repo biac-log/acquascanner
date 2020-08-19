@@ -49,4 +49,7 @@ export const getters: GetterTree<ArticlesState, RootState> = {
             return state.articles.length;
         } else { return 0; }
     },
+    displayArticles(state): Article[]{
+        return state.displayArticles;
+    }
 };

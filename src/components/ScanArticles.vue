@@ -135,6 +135,8 @@ export default class ScanArticles extends Vue {
 
   @Getter("articlesScan", { namespace })
   private articles!: Article[];
+  @Getter('fournisseursModule/getFournisseurNumero')
+  private numeroFournisseur!: number;
   @Action("refreshArticles", { namespace })
   private refreshArticles: any;
 
@@ -228,6 +230,7 @@ export default class ScanArticles extends Vue {
   }
 
   private openSearchArticleDialog() {
+    this.$store.commit("articles/setDisplayArticles", this.numeroFournisseur);
     this.searchArticleDialog = true;
     document.documentElement.style.overflow = "hidden";
   }

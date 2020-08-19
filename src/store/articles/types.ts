@@ -8,4 +8,5 @@ export interface ArticlesState {
   displaySuccessMessage: boolean;
   successMessage: string;
   loadingSendArticleScan: boolean;
+  displayArticles: Article[];
 }

@@ -11,4 +11,6 @@ export class Article {
   public Quantite: number = 0;
   @JsonProperty('ReferenceFournisseur', String)
   public ReferenceFournisseur: string = '';
+  @JsonProperty('NumeroFournisseur', Number)
+  public NumeroFournisseur: number = 0;
 }

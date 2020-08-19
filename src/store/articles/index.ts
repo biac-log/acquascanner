@@ -13,6 +13,7 @@ export const state: ArticlesState = {
   successMessage: '',
   displaySuccessMessage: false,
   loadingSendArticleScan: false,
+  displayArticles: []
 };
 
 const namespaced: boolean = true;
