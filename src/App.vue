@@ -10,7 +10,7 @@
         <span class="font-weight-light">Scanner</span>
       </v-toolbar-title>
       <v-spacer />
-      <v-btn icon >
+      <v-btn icon to="/options">
         <v-icon>mdi-cog</v-icon>
       </v-btn>
     </v-app-bar>
