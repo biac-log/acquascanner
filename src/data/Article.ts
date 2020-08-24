@@ -13,4 +13,6 @@ export class Article {
   public ReferenceFournisseur: string = '';
   @JsonProperty('NumeroFournisseur', Number)
   public NumeroFournisseur: number = 0;
+  @JsonProperty('BlocageVentes', Number)
+  public BlocageVentes: number = 0;
 }

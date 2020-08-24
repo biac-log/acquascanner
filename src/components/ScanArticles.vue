@@ -28,7 +28,7 @@
     <v-alert
       :value="errorMessage != ''"
       class="mt-n5 mb-2"
-      type="warning"
+      color="blue"
       border="left"
     >{{ errorMessage }}</v-alert>
     <v-data-table
@@ -127,22 +127,23 @@ export default class ScanArticles extends Vue {
   private loadingCode: boolean = false;
   private showError: boolean = false;
   private errorMessage: string = "";
+  private colorAlert = "blue";
   private headers = [
     { text: "EAN", value: "CodeEAN" },
     { text: "Libelle", value: "Libelle" },
-    { text: "Quantité", value: "Quantite" }
+    { text: "Quantité", value: "Quantite" },
   ];
 
   @Getter("articlesScan", { namespace })
   private articles!: Article[];
-  @Getter('fournisseursModule/getFournisseurNumero')
+  @Getter("fournisseursModule/getFournisseurNumero")
   private numeroFournisseur!: number;
   @Action("refreshArticles", { namespace })
   private refreshArticles: any;
 
   public mounted() {
     window.scrollTo(0, 0);
-    document.addEventListener("keydown", event => {
+    document.addEventListener("keydown", (event) => {
       if (!this.articleDialog && !this.searchArticleDialog) {
         this.$nextTick(() =>
           (this.$refs.codeArticleElement as HTMLInputElement).focus()
@@ -182,19 +183,27 @@ export default class ScanArticles extends Vue {
               "/Article/GetArticleByCodeEAN?code=" +
               trueCodeArticle
           )
-          .then(response => {
+          .then((response) => {
             if (response.data) {
-              this.articleDialog = true;
-              this.editArticle(response.data);
+              if (response.data.BlocageVentes == 7 || response.data.BlocageVentes == 9) {
+                this.showError = true;
+                this.$store.commit(
+                  "articles/setErrorMessage",
+                  `L'article ${response.data.CodeEAN} (ref ${response.data.Code}) est bloqué`
+                );
+              } else {
+                this.articleDialog = true;
+                this.editArticle(response.data);
+              }
             } else {
               this.showError = true;
               this.$store.commit(
                 "articles/setErrorMessage",
-                "L'article " + this.codeArticle + " n'existe pas"
+                "L'article " + trueCodeArticle + " n'existe pas"
               );
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.showError = true;
             this.$store.commit("articles/setErrorMessage", e.message);
           })
