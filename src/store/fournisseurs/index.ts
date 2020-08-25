@@ -7,12 +7,12 @@ import { RootState } from '../types';
 
 
 export const state: FournisseurState = {
-    fournisseurs : [],
-    loading: false,
-    fournisseurName1: "",
-    fournisseurName2: "",
-    fournisseurName3: "",
-    fournisseurNumero: 0,
+  fournisseurs: [],
+  loading: false,
+  fournisseurName1: "",
+  fournisseurName2: "",
+  fournisseurName3: "",
+  fournisseurNumero: 0,
 };
 
 const namespaced: boolean = true;

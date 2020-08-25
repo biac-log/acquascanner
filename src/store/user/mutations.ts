@@ -20,5 +20,5 @@ export const mutations: MutationTree<UserState> = {
         state.userName = '';
         state.permissions = [];
         localStorage.removeItem("permissions");
-    }
+    },
 };

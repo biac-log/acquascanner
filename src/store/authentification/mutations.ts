@@ -7,7 +7,7 @@ export const mutations: MutationTree<AuthentificationState> = {
         state.status = "loading";
     },
     [c.AUTH_SUCCESS]: (state, resp) => {
-        var dateExpire: string = (((resp.expires_in*1000) + Date.now()).toString());
+        var dateExpire: string = (((resp.expires_in * 1000) + Date.now()).toString());
         localStorage.setItem("user-token", resp.value);
         localStorage.setItem("token-expire", dateExpire);
         state.token = resp.value;

@@ -4,8 +4,8 @@ import { RootState } from './types';
 import { articles } from './articles/index';
 import { authentificationModule } from './authentification/index';
 import { modeModule } from './modes/index';
-import {fournisseursModule} from './fournisseurs/index'
-import {UserModule} from './user/index'
+import { fournisseursModule } from './fournisseurs/index'
+import { UserModule } from './user/index'
 
 
 Vue.use(Vuex);

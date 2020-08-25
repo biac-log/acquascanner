@@ -1,4 +1,4 @@
 export interface UserState {
-   userName : string,
-   permissions : string[],
+   userName: string,
+   permissions: string[],
 }

@@ -54,7 +54,9 @@
           </v-btn>
         </v-toolbar>
       </template>
-      <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
+      <template v-slot:progress>
+        <v-progress-linear color="blue" indeterminate></v-progress-linear>
+      </template>
     </v-data-table>
 
     <v-layout justify-center>
@@ -77,6 +79,7 @@
             </v-btn>
             <v-toolbar-title>Recherche d'articles</v-toolbar-title>
             <v-spacer></v-spacer>
+            <v-switch hide-details :disabled="switchDisabled" v-model="triFournisseur" @change="refreshList"></v-switch>
             <v-btn icon dark @click="refreshArticles()">
               <v-icon>mdi-refresh</v-icon>
             </v-btn>
@@ -128,6 +131,8 @@ export default class ScanArticles extends Vue {
   private showError: boolean = false;
   private errorMessage: string = "";
   private colorAlert = "blue";
+  private switchDisabled: boolean = true;
+  private triFournisseur: boolean = false;
   private headers = [
     { text: "EAN", value: "CodeEAN" },
     { text: "Libelle", value: "Libelle" },
@@ -164,10 +169,7 @@ export default class ScanArticles extends Vue {
 
   private checkCodeArticle() {
     if (this.codeIsValid()) {
-      const pad = "0000000000000";
-      const trueCodeArticle =
-        pad.substring(0, pad.length - this.codeArticle.length) +
-        this.codeArticle;
+      const trueCodeArticle = this.codeArticle;
       const article: Article = this.$store.getters[
         "articles/getArticleByCodeEAN"
       ](trueCodeArticle);
@@ -185,7 +187,10 @@ export default class ScanArticles extends Vue {
           )
           .then((response) => {
             if (response.data) {
-              if (response.data.BlocageVentes == 7 || response.data.BlocageVentes == 9) {
+              if (
+                response.data.BlocageVentes == 7 ||
+                response.data.BlocageVentes == 9
+              ) {
                 this.showError = true;
                 this.$store.commit(
                   "articles/setErrorMessage",
@@ -238,8 +243,21 @@ export default class ScanArticles extends Vue {
     }
   }
 
+  private refreshList() {
+    if(this.triFournisseur)
+      this.$store.commit("articles/setDisplayArticles", this.numeroFournisseur);
+    else
+      this.$store.commit("articles/setDisplayArticles", 0);
+  }
   private openSearchArticleDialog() {
-    this.$store.commit("articles/setDisplayArticles", this.numeroFournisseur);
+    if (this.$route.name == "Commande")
+      this.switchDisabled = false;
+    else
+    {
+      this.switchDisabled = true;
+      this.triFournisseur = false;
+    }
+    this.refreshList();
     this.searchArticleDialog = true;
     document.documentElement.style.overflow = "hidden";
   }

@@ -88,9 +88,9 @@ export const mutations: MutationTree<ArticlesState> = {
     state.displaySuccessMessage = value;
   },
   setDisplayArticles(state, numeroFournisseur: number) {
-      if (router.currentRoute.name == 'Commande' && state.articles != null && numeroFournisseur != 0)
-        state.displayArticles = state.articles.filter(a => a.NumeroFournisseur == numeroFournisseur);
-      else
-        state.displayArticles = state.articles;
+    if (router.currentRoute.name == 'Commande' && state.articles != null && numeroFournisseur != 0)
+      state.displayArticles = state.articles.filter(a => a.NumeroFournisseur == numeroFournisseur);
+    else
+      state.displayArticles = state.articles;
   }
 };

@@ -10,7 +10,7 @@ export const actions: ActionTree<UserState, RootState> = {
     LoadUser({ commit, dispatch, rootState, rootGetters }) {
         return new Promise((resolve, reject) => {
             const header = `Bearer ${rootGetters['authentificationModule/getToken']}`;
-            axios.get<User>(`${process.env.VUE_APP_ApiGestionUser}/User/GetUserLog/ACQUASCAN`, { headers: { Authorization : header } })
+            axios.get<User>(`${process.env.VUE_APP_ApiGestionUser}/User/GetUserLog/ACQUASCAN`, { headers: { Authorization: header } })
                 .then((resp) => {
                     commit("SetUser", resp.data);
                     resolve(resp);

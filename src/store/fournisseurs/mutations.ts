@@ -41,10 +41,10 @@ export const mutations: MutationTree<FournisseurState> = {
       if (name.length > 2) state.fournisseurName3 = name[2];
     }
   },
-  setFournisseurNumero(state, numero:number){
+  setFournisseurNumero(state, numero: number) {
     state.fournisseurNumero = numero;
   },
-  clearCurrentFournisseur(state){
+  clearCurrentFournisseur(state) {
     state.fournisseurName1 = "";
     state.fournisseurName2 = "";
     state.fournisseurName3 = "";
