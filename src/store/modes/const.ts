@@ -34,6 +34,14 @@ export const modes: ScanMode[] = [
         permissionId: "ACQUASCANNERINV"
     },
     {
+        key: "PERTE",
+        libelle: "Pertes",
+        color: "#ff8a65",
+        destination: "RectMinus",
+        icon: "mdi-cart-off",
+        permissionId: "ACQUASCANNERPERTE"
+    },
+    {
         key: "VEN",
         libelle: "Vente",
         color: "#00BFA5",
