@@ -1,4 +1,5 @@
 <template>
+<v-container>
   <v-dialog
     v-model="showDialog"
     eager
@@ -117,18 +118,26 @@
       </v-form>
     </v-card>
   </v-dialog>
+    <v-dialog v-model="sendPrinterDialog" max-width="450">
+      <SendPrinter ref="SendPrinterWindow" :window.sync="sendPrinterDialog" @showSendPrinterDialog="showSendPrinterDialog" />
+    </v-dialog>
+  </v-container>
 </template>
 
 <script lang="ts">
 import { State, Action, Getter } from "vuex-class";
 import { Component, Vue, Emit, PropSync, Prop } from "vue-property-decorator";
 import { Article } from "../data/Article";
+import  SendPrinter  from "@/components/SendPrinter.vue";
 import axios from "axios";
+import { Ref } from 'vue-property-decorator';
 
-@Component({})
+@Component({ components: { SendPrinter }})
 export default class ScanArticle extends Vue {
+  
   @PropSync("window")
   public showDialog!: boolean;
+  private sendPrinterDialog: boolean = false;
   public valid: boolean = false;
   public code: string = "";
   public codeRules = [(v: any) => !!v || "Le code est obligatoire"];
@@ -141,7 +150,7 @@ export default class ScanArticle extends Vue {
   public quantiteRules = [
     (v: string) => !!v || "La quantité est obligatoire",
     (v: string) =>
-      Number.isInteger(Number.parseInt(v)) || "La quantité doit être un entier"
+      Number.isInteger(Number.parseInt(v)) || "La quantité doit être un entier",
   ];
 
   public quantiteAdd: string = "";
@@ -150,7 +159,7 @@ export default class ScanArticle extends Vue {
       !!v ||
       v === "" ||
       Number.isInteger(Number.parseInt(v)) ||
-      "La quantité doit être un entier"
+      "La quantité doit être un entier",
   ];
   private isEdit: boolean = false;
   @Action("addArticleScan", { namespace: "articles" })
@@ -193,7 +202,7 @@ export default class ScanArticle extends Vue {
 
       if (this.quantiteAdd || this.quantiteAdd !== "") {
         article.Quantite += Number.parseFloat(this.quantiteAdd);
-        if(article.Quantite < 0) article.Quantite = 0;
+        if (article.Quantite < 0) article.Quantite = 0;
       }
       this.addArticleScan(article);
       this.clearData();
@@ -210,7 +219,8 @@ export default class ScanArticle extends Vue {
   }
 
   private printEtiquettes() {
-    this.$store.dispatch('articles/PrintEtiquettes', this.selectedArticle)
+    this.showSendPrinterDialog(true);
+   this.$nextTick(() =>((this.$refs.SendPrinterWindow as SendPrinter).SetArticle(this.selectedArticle)));
   }
 
   private GetArticle(): Article {
@@ -229,6 +239,10 @@ export default class ScanArticle extends Vue {
     this.quantite = "";
     this.quantiteAdd = "";
     this.ReferenceFournisseur = "";
+  }
+
+  private showSendPrinterDialog(value: boolean) {
+    this.sendPrinterDialog = value;
   }
 }
 </script>

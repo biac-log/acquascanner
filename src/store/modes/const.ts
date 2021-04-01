@@ -79,5 +79,5 @@ export const modes: ScanMode[] = [
         color: "#FF7043",
         destination: "Etiquettes",
         icon: "mdi-note-text",
-        permissionId: "Never"
+        permissionId: "Always"
     }];

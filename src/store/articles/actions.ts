@@ -1,3 +1,4 @@
+import { PrintArticle } from './../../data/PrintArticle';
 import { ActionTree } from 'vuex';
 import axios from 'axios';
 import { ArticlesState } from './types';
@@ -90,10 +91,9 @@ export const actions: ActionTree<ArticlesState, RootState> = {
         commit('setLoadingSendArticleScan', false)
       });
   },
-  PrintEtiquettes(context, article: Article): any {
+  PrintEtiquettes(context, printArticle : PrintArticle): any {
     context.commit('setLoadingSendArticleScan', true);
-    article.Quantite = 1;
-    axios.post(`${process.env.VUE_APP_ApiArticle}/Etiquettes/print`, article)
+    axios.post(`${process.env.VUE_APP_ApiArticle}/Etiquettes/print`, printArticle)
       .then((r) => {
         context.commit('resetArticlesScan');
         context.commit('setErrorMessage', '');
