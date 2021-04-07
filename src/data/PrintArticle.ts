@@ -2,10 +2,10 @@ import { JsonObject, JsonProperty } from 'json2typescript';
 
 @JsonObject('PrintArticle')
 export class PrintArticle {
-  @JsonProperty('CodeEAN', String)
+  @JsonProperty('codeEAN', String)
   public CodeEAN: string = '';
-  @JsonProperty('Quantite', Number)
+  @JsonProperty('quantite', Number)
   public Quantite: number = 0;
-  @JsonProperty('PrinterName', String)
+  @JsonProperty('printerName', String)
   public PrinterName: string = '';
 }

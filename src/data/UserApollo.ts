@@ -2,8 +2,8 @@ import { JsonObject, JsonProperty } from "json2typescript";
 
 @JsonObject("UserApollo")
 export class UserApollo {
-  @JsonProperty("UserName", String)
+  @JsonProperty("userName", String)
   public UserName: string = '';
-  @JsonProperty("NumeroSession", Number)
+  @JsonProperty("numeroSession", Number)
   public NumeroSession: number = 0;
 }

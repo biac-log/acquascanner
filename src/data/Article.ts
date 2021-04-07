@@ -2,17 +2,17 @@ import { JsonObject, JsonProperty } from 'json2typescript';
 
 @JsonObject('Article')
 export class Article {
-  @JsonProperty('Code', String)
+  @JsonProperty('code', String)
   public Code: string = '';
-  @JsonProperty('CodeEAN', String)
+  @JsonProperty('codeEAN', String)
   public CodeEAN: string = '';
-  @JsonProperty('Libelle', String)
+  @JsonProperty('libelle', String)
   public Libelle: string = '';
   public Quantite: number = 0;
-  @JsonProperty('ReferenceFournisseur', String)
+  @JsonProperty('referenceFournisseur', String)
   public ReferenceFournisseur: string = '';
-  @JsonProperty('NumeroFournisseur', Number)
+  @JsonProperty('numeroFournisseur', Number)
   public NumeroFournisseur: number = 0;
-  @JsonProperty('BlocageVentes', Number)
+  @JsonProperty('blocageVentes', Number)
   public BlocageVentes: number = 0;
 }

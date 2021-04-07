@@ -2,12 +2,12 @@ import { JsonObject, JsonProperty } from 'json2typescript';
 
 @JsonObject('Compte')
 export class Compte {
-  @JsonProperty('Nom', String)
+  @JsonProperty('nom', String)
   public nom: string = '';
-  @JsonProperty('Nom2', String)
+  @JsonProperty('nom2', String)
   public nom2: string = '';
-  @JsonProperty('Nom3', String)
+  @JsonProperty('nom3', String)
   public nom3: string = '';
-  @JsonProperty('Numero', Number)
+  @JsonProperty('numero', Number)
   public numero: number = 0;
 }

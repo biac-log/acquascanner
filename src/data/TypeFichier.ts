@@ -2,8 +2,8 @@ import { JsonObject, JsonProperty } from "json2typescript";
 
 @JsonObject("TypeFichier")
 export class TypeFichier {
-  @JsonProperty("Id", String)
+  @JsonProperty("id", String)
   public Id: string = '';
-  @JsonProperty("Libelle", Number)
+  @JsonProperty("libelle", Number)
   public Libelle: number = 0;
 }

@@ -2,12 +2,12 @@ import { JsonObject, JsonProperty } from "json2typescript";
 
 @JsonObject("Permission")
 export class Permission {
-    @JsonProperty("Id", String)
+    @JsonProperty("id", String)
     public Id: string = '';
-    @JsonProperty("Nom", String)
+    @JsonProperty("nom", String)
     public Nom: string = '';
-    @JsonProperty("Description", String)
+    @JsonProperty("description", String)
     public Description: string = '';
-    @JsonProperty("ApplicationId", String)
+    @JsonProperty("applicationId", String)
     public ApplicationId: string = '';
 }

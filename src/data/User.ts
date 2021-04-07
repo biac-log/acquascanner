@@ -3,11 +3,11 @@ import { Permission } from "./Permission";
 
 @JsonObject("User")
 export class User {
-  @JsonProperty("ID", String)
+  @JsonProperty("iD", String)
   public ID: string = '';
-  @JsonProperty("NomPrenom", String)
+  @JsonProperty("nomPrenom", String)
   public NomPrenom: string = '';
-  @JsonProperty("Permissions", [Permission])
+  @JsonProperty("permissions", [Permission])
   public Permissions: Permission[] = [];
 
 }
